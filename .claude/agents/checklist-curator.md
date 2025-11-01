@@ -19,7 +19,7 @@ This agent runs non-interactively. This means:
 
 ## Your Task
 
-1. **Extract Features**: Run `http --help` and parse all options, flags, and documented behaviors
+1. **Extract Features**: Run `./scripts/extract-features.sh` to get all HTTPie features and parse the options, flags, and documented behaviors
 2. **Create/Update Checklist**: Write to or update `checklist.md` with:
    - Feature name
    - Description (from help text)
@@ -69,6 +69,14 @@ After creating/updating the checklist:
 - Verify all slugs are unique
 - Verify all slugs are valid filenames
 - Ensure each feature has a clear description
+
+## Reusable Scripts
+
+This agent uses the pre-approved scripts:
+- `./scripts/extract-features.sh` - Extracts HTTPie features from `http --help` output
+- `./scripts/parse-help.py` - Parses help text and converts to structured JSON format
+
+These scripts are designed to be run as-is without modification for consistent, repeatable feature extraction across test runs.
 
 ## Re-running
 

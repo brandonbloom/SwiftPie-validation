@@ -117,9 +117,15 @@ In `features/{slug}.md`, clearly document the final test status:
 
 ## Testing Environment
 
-- **Server**: httpbin is running locally
+- **Server**: httpbin is running locally on `http://localhost:8888` (started and managed by orchestrator)
 - **Access**: Only use `http` and `spie` CLIs to test
 - **Documentation**: See `./context/httpbin-swagger.json` for API reference
+
+## Important Notes
+
+- Do NOT start or stop the httpbin server - the orchestrator manages the shared instance
+- All agents can access the same httpbin server on localhost:8888
+- This allows efficient reuse of a single test server across all feature tests
 
 ## Key Principles
 

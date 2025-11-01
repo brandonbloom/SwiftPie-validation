@@ -1,3 +1,8 @@
+---
+description: Create a new issue with unique ID for testing deviations or blockers
+argument-hint: "{slug}"
+---
+
 # /new-issue - Create a New Issue with Unique ID
 
 This command creates a properly formatted issue file with a unique ID for any testing deviations, blockers, or problems found during testing.

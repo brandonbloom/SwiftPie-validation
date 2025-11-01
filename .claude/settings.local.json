@@ -11,7 +11,11 @@
       "Bash(spie --help:*)",
       "Bash(http:*)",
       "Bash(spie --version:*)",
-      "Bash(spie:*)"
+      "Bash(spie:*)",
+      "Bash(curl:*)",
+      "Bash(/Users/bbloom/Projects/httpie-delta/scripts/extract-features.sh:*)",
+      "Bash(/tmp/http-help.txt)",
+      "Bash(/Users/bbloom/Projects/httpie-delta/scripts/parse-help.py)"
     ],
     "deny": [],
     "ask": []
