@@ -1,19 +1,68 @@
-This directory will act as a workspace for a white-box test comparing two programs.
+# HTTPie vs SwiftPie White-Box Testing Workspace
 
-1. The baseline program is called `http`, and it is the official Python implementation of HTTPie.
-2. The other program is called `spie`, aka "SwiftPie", and is a work-in-progress clone of HTTPie implemented in Swift.
+## Overview
 
-The plan is to examine the `--help` output of HTTPie and then create a checklist every option and behavior, storing that in `checklist.md` - each item in that list will be assigned a "slug" identifier string to be used as an anchor to refer to the feature or behavior. The slug is a valid portion of a filename that can be used to refer to the feature easily later.
+This workspace compares two HTTP client implementations:
+- **`http`** - The official Python implementation of HTTPie (baseline)
+- **`spie`** - A work-in-progress Swift clone of HTTPie
 
-Once approved, a subagent will be spawned for each and every feature. A plan will be created for testing each feature, and written to features/{slug}.md, then a new subagent can be spawned to execute that plan, which will update the feature file with any notes about the results of testing. If any issues are found, they should be logged in the corresponding feature file. Additionally, all issues will be written to issues/{issue-id}-{feature-slug}.md
+The testing workflow consists of three phases:
 
-Issue IDs can be generated using: `python3 -c 'import random; print(random.randint(10000, 99999))'`
+1. **Checklist Phase** - Extract and maintain a comprehensive list of HTTPie features from its `--help` output
+2. **Testing Phase** - Execute test plans for individual features
+3. **Orchestration** - Coordinate the full testing workflow
 
-Any deviation between `http` and `spie` is an issue. Issues should explain what
-was tested, what was expected, what actually happened, and why it is an issue.
+## How to Run
 
-During testing, the root agent will run the httpbin server in the background. Sub agents are only permitted to test the client implementations by using them to make requests against this server. No other network endpoints may be accessed by any means. This backend is documented with the swagger spec at ./context/httpbin-swagger.json
+Start the testing workflow:
+```bash
+/run-tests
+```
 
-If something cannot be tested for some reason, that itself is an issue and should be logged.
+This slash command will orchestrate the entire process by spawning agents for checklist curation and feature testing.
 
-spie and http will both be on PATH for you. Before beginning anything, verify that is true.
+The workflow uses dedicated agents to avoid context overload:
+- **checklist-curator** - Extracts HTTPie features and maintains the checklist
+- **feature-tester** - Tests individual features and documents deviations
+- **run-tests** - Orchestrates the workflow (slash command)
+
+## Design Principles
+
+- **Re-runnable**: All agents detect existing outputs and update them appropriately, supporting iterative testing as `spie` evolves
+- **Isolated Testing**: All tests execute against a local httpbin server; no external network access
+- **Clear Attribution**: Each feature gets a slug identifier (valid filename component) for easy reference
+- **Issue Tracking**: Any deviation between `http` and `spie` is documented as an issue
+- **Context-Efficient**: Heavy lifting delegated to specialized agents to avoid context overload in the orchestrator
+
+## Directory Structure
+
+- `checklist.md` - Master list of HTTPie features with slugs (auto-updated by checklist-curator agent)
+- `features/{slug}.md` - Test plan and results for each feature
+- `issues/{issue-id}-{feature-slug}.md` - Detailed issue documentation (created by feature-tester agent)
+- `.claude/agents/` - Agent definitions for checklist-curator and feature-tester
+- `.claude/commands/run-tests.md` - Orchestration slash command
+
+## Key Concepts
+
+**Feature Slug**: A URL/filename-safe identifier derived from a feature name (e.g., `json-body` for JSON request bodies). Used as an anchor throughout the workflow.
+
+**Issue**: Any deviation between `http` and `spie` behavior. Must document:
+- What was tested
+- What was expected
+- What actually happened
+- Why it is an issue
+
+**Issue ID**: Generated with `python3 -c 'import random; print(random.randint(10000, 99999))'`
+
+## Testing Environment
+
+- **HTTP Server**: A local httpbin instance runs in the background during testing
+- **Constraints**: Only test using `http` and `spie` CLIs against the local httpbin server
+- **Server Documentation**: See `./context/httpbin-swagger.json` for the API specification
+
+## Prerequisites
+
+Both `http` and `spie` must be on your PATH before starting. Verify with:
+```bash
+which http && which spie
+```
