@@ -9,7 +9,9 @@
       "Bash(cat:*)",
       "Bash(/tmp/help_diff.txt)",
       "Bash(spie --help:*)",
-      "Bash(http:*)"
+      "Bash(http:*)",
+      "Bash(spie --version:*)",
+      "Bash(spie:*)"
     ],
     "deny": [],
     "ask": []

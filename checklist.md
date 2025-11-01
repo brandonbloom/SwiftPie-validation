@@ -61,7 +61,7 @@ This checklist contains all features extracted from `http --help` for comprehens
 | ignore-stdin-flag | --ignore-stdin, -I | Do not attempt to read from stdin | Not Tested | |
 | help-flag | --help | Show help message and exit | Not Tested | |
 | manual-flag | --manual | Show full manual | Not Tested | |
-| version-flag | --version | Show version and exit | Not Tested | |
+| version-flag | --version | Show version and exit | Failed | Feature not implemented in spie; see features/version-flag.md and issues/version-flag-not-implemented.md |
 | traceback-flag | --traceback | Print exception traceback on error | Not Tested | |
 | default-scheme-option | --default-scheme | Default scheme when not specified in URL | Not Tested | |
 | debug-flag | --debug | Debug mode with traceback and debugging info | Not Tested | |

@@ -78,27 +78,33 @@ Update `features/{slug}.md` with:
 
 For any deviation between `http` and `spie`:
 
-1. Invoke the `/new-issue` command with the feature slug to generate a unique ID and get a template:
+**You MUST use the `/new-issue` slash command** to create properly formatted issues with unique IDs.
+
+1. Invoke `/new-issue {slug}` to generate a unique ID and template file:
    ```
    /new-issue {slug}
    ```
-   This returns the issue file path with a unique ID.
+   This command:
+   - Generates a unique 5-digit issue ID
+   - Creates file: `issues/{issue-id}-{slug}.md`
+   - Provides a standardized template
 
-2. Edit the created issue file and document:
+2. Edit the created issue file and fill in all template sections:
    - **Tested**: Exact command and inputs used
    - **Expected**: What `http` does (the baseline behavior)
    - **Actual**: What `spie` does (the deviation)
    - **The Problem**: Why this is a problem (functional difference, incorrect output, etc.)
-   - **Impact**: How serious this is (critical/high/medium/low)
+   - **Impact**: How serious this is (critical/high/medium/low/blocker)
 
-The `/new-issue` command ensures unique IDs and consistent formatting across all issues.
-
-Example:
+Example workflow:
 ```
 /new-issue json-body
 → Returns: Issue created at issues/47293-json-body.md
-→ Now edit this file with the specific details
+
+[Now edit issues/47293-json-body.md with the test details...]
 ```
+
+**Important**: Do NOT create issue files manually. Always use `/new-issue` to ensure unique IDs and consistent formatting.
 
 ### Step 5: Document Status in Feature File
 
