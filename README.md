@@ -1,5 +1,7 @@
 # HTTPie vs SwiftPie White-Box Testing Workspace
 
+Part of the https://github.com/brandonbloom/SwiftPie vibe-coding experiment.
+
 ## Overview
 
 This workspace compares two HTTP client implementations:
