@@ -1,0 +1,41 @@
+[1;33mTesting feature: headers-flag[0m
+Perfect! Let me create a summary of the test results:
+
+## Headers-Flag Feature Test Summary
+
+**Feature Tested:** `--headers, -h` flag (Print only response headers)
+
+**Test Status: FAILED** ✗
+
+### Key Findings:
+
+1. **HTTPie Implementation:** ✓ WORKING
+   - `--headers` flag is fully implemented and functional
+   - `-h` works as a short form for `--headers`
+   - Both are shortcuts for `--print=h`
+   - Consistently outputs ONLY response headers without the body
+
+2. **SpIE Implementation:** ✗ NOT IMPLEMENTED
+   - No `--headers` flag available
+   - `-h` is reserved for `--help` (Unix convention)
+   - No granular output control like HTTPie's `--print` option
+   - Always outputs full response (headers + formatted body)
+
+### Test Results:
+
+| Test | HTTPie | SpIE | Result |
+|------|--------|------|--------|
+| Basic `--headers` flag | ✓ PASS | ✗ N/A | **FAILED** |
+| Short form `-h` | ✓ PASS | ✗ N/A | **FAILED** |
+| Equivalence to `--print=h` | ✓ PASS | ✗ N/A | **FAILED** |
+| Output contains headers only | ✓ PASS | ✗ N/A | **FAILED** |
+| Output excludes body | ✓ PASS | ✗ N/A | **FAILED** |
+
+### Documentation:
+- Created: `/Users/bbloom/Projects/httpie-delta/features/headers-flag.md`
+- Updated: `/Users/bbloom/Projects/httpie-delta/checklist.md`
+
+### Conclusion:
+
+The `--headers` flag represents a significant feature gap in spie. HTTPie provides granular output control through several shortcuts (`--headers`, `--body`, `--meta`, `--verbose`), but spie currently lacks this functionality. This is a notable usability difference between the two tools.
+[0;32m✓ headers-flag[0m

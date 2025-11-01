@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install required Python packages
+RUN pip install --no-cache-dir pyyaml
+
+# Copy orchestrator script
+COPY scripts/orchestrate-tests.sh /workspace/scripts/orchestrate-tests.sh
+RUN chmod +x /workspace/scripts/orchestrate-tests.sh
+
+# Copy test batch configuration
+COPY test-batches.json* /workspace/
+
+WORKDIR /workspace
+
+ENTRYPOINT ["/workspace/scripts/orchestrate-tests.sh"]

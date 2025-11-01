@@ -1,0 +1,149 @@
+{
+  "description": "HTTPie feature test batches for headless execution",
+  "total_features": 67,
+  "batches": [
+    {
+      "batch_id": 1,
+      "name": "Core Request Features",
+      "max_parallel": 4,
+      "features": [
+        "method-argument",
+        "url-argument",
+        "request-item-headers",
+        "request-item-url-params"
+      ]
+    },
+    {
+      "batch_id": 2,
+      "name": "Request Data Features",
+      "max_parallel": 4,
+      "features": [
+        "request-item-data-fields",
+        "request-item-json-fields",
+        "request-item-form-files",
+        "request-item-data-embed"
+      ]
+    },
+    {
+      "batch_id": 3,
+      "name": "Content Type Features",
+      "max_parallel": 4,
+      "features": [
+        "json-flag",
+        "form-flag",
+        "multipart-flag",
+        "boundary-option"
+      ]
+    },
+    {
+      "batch_id": 4,
+      "name": "Output Format Features",
+      "max_parallel": 4,
+      "features": [
+        "pretty-option",
+        "style-option",
+        "unsorted-flag",
+        "sorted-flag"
+      ]
+    },
+    {
+      "batch_id": 5,
+      "name": "Output Options Features",
+      "max_parallel": 4,
+      "features": [
+        "print-option",
+        "headers-flag",
+        "meta-flag",
+        "body-flag"
+      ]
+    },
+    {
+      "batch_id": 6,
+      "name": "Verbose & Output Control",
+      "max_parallel": 4,
+      "features": [
+        "verbose-flag",
+        "all-flag",
+        "stream-flag",
+        "quiet-flag"
+      ]
+    },
+    {
+      "batch_id": 7,
+      "name": "File Operations",
+      "max_parallel": 4,
+      "features": [
+        "output-option",
+        "download-flag",
+        "continue-flag"
+      ]
+    },
+    {
+      "batch_id": 8,
+      "name": "Authentication Features",
+      "max_parallel": 4,
+      "features": [
+        "auth-option",
+        "auth-type-option",
+        "ignore-netrc-flag",
+        "session-option"
+      ]
+    },
+    {
+      "batch_id": 9,
+      "name": "Network Features",
+      "max_parallel": 4,
+      "features": [
+        "offline-flag",
+        "proxy-option",
+        "follow-flag",
+        "max-redirects-option"
+      ]
+    },
+    {
+      "batch_id": 10,
+      "name": "Advanced Network",
+      "max_parallel": 4,
+      "features": [
+        "timeout-option",
+        "check-status-flag",
+        "path-as-is-flag",
+        "chunked-flag"
+      ]
+    },
+    {
+      "batch_id": 11,
+      "name": "SSL/TLS Features",
+      "max_parallel": 2,
+      "timeout_per_feature": 300,
+      "features": [
+        "verify-option",
+        "ssl-option",
+        "ciphers-option",
+        "cert-option"
+      ]
+    },
+    {
+      "batch_id": 12,
+      "name": "Utility Features",
+      "max_parallel": 4,
+      "features": [
+        "ignore-stdin-flag",
+        "help-flag",
+        "manual-flag",
+        "debug-flag"
+      ]
+    }
+  ],
+  "retry_policy": {
+    "max_retries": 2,
+    "retry_on_timeout": true,
+    "timeout_seconds": 300
+  },
+  "notes": [
+    "Batch 11 (SSL/TLS) uses lower parallelism due to certificate handling complexity",
+    "Each feature test is independent and can run in parallel unless marked as sequential",
+    "Failed tests are automatically retried once before being marked as Failed",
+    "Total estimated runtime: ~30-45 minutes with 4 parallel agents"
+  ]
+}

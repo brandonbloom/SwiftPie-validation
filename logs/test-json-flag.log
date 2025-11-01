@@ -1,0 +1,93 @@
+[1;33mTesting feature: json-flag[0m
+Excellent! Let me provide a final summary:
+
+## JSON-Flag Feature Testing Complete ✓
+
+I have completed comprehensive testing of the `json-flag` feature (`--json`, `-j`) for the HTTPie vs spie comparison project.
+
+### Test Results: **FAILED** ❌
+
+The `--json` flag feature is **NOT IMPLEMENTED** in spie.
+
+### Key Findings:
+
+| Aspect | http | spie | Status |
+|--------|------|------|--------|
+| `--json` flag support | ✓ Works | ✗ Error: unknown option | DEVIATION |
+| `-j` shorthand | ✓ Works | ✗ Error: unknown option | DEVIATION |
+| Default serialization | JSON (application/json) | Form data (x-www-form-urlencoded) | DEVIATION |
+| Content-Type header | Automatically set to application/json | Not set | DEVIATION |
+| Accept header | Set to application/json, */*;q=0.5 | Not set | DEVIATION |
+
+### Deliverables Created:
+
+1. **`features/json-flag.md`** - Comprehensive test plan with 6 test cases and detailed side-by-side comparisons
+2. **`issues/25229-json-flag.md`** - Detailed issue documentation for this blocker
+3. **`checklist.md`** - Updated with test status "Failed" and cross-references
+
+### Critical Impact:
+
+This is a **critical deviation** because:
+- The `--json` flag is the **DEFAULT** content type in HTTPie's design philosophy
+- spie instead defaults to form data, which is the opposite of HTTPie
+- Users cannot explicitly request JSON serialization with `spie`
+- HTTPie scripts using `--json` will fail when run with `spie`
+
+All test evidence, commands, and outputs are documented in the feature test file for reference.
+[0;32m✓ json-flag[0m
+[1;33mTesting feature: json-flag[0m
+## Testing Complete: json-flag Feature
+
+### Test Summary
+
+I have completed comprehensive testing of the `json-flag` feature (`--json`, `-j`) for HTTPie compatibility testing.
+
+### Test Result: **FAILED** ❌
+
+The `--json` flag feature is **NOT IMPLEMENTED** in spie, representing a critical deviation from HTTPie behavior.
+
+### Critical Findings
+
+| Feature | http | spie | Status |
+|---------|------|------|--------|
+| `--json` flag | ✅ Supported | ❌ Unknown option | DEVIATION |
+| `-j` shorthand | ✅ Supported | ❌ Unknown option | DEVIATION |
+| Default serialization | ✅ JSON (application/json) | ❌ Form data (application/x-www-form-urlencoded) | DEVIATION |
+| Content-Type header | ✅ Auto-set to application/json | ❌ Not set | DEVIATION |
+| Accept header | ✅ Set to application/json, */*;q=0.5 | ❌ Not set | DEVIATION |
+| JSON field parsing (:=) | ✅ Works | ✅ Works | MATCH |
+
+### Test Evidence
+
+**Test 1: --json flag support**
+```
+http: ✅ {"name": "John"} with Content-Type: application/json
+spie: ❌ error: unknown option '--json'
+```
+
+**Test 2: Default behavior (no flags)**
+```
+http: ✅ Defaults to JSON with Content-Type: application/json
+spie: ❌ Defaults to form data with Content-Type: application/x-www-form-urlencoded
+```
+
+**Test 3: JSON field parsing (age:=30)**
+```
+http: ✅ Correctly parses as {"name": "John", "age": 30}
+spie: ✅ Correctly parses as {"age":30,"name":"John"}
+```
+
+### Documentation Created
+
+1. **`features/json-flag.md`** - Comprehensive test plan with 6 test cases and detailed outputs
+2. **`issues/25229-json-flag.md`** - Detailed blocker issue documentation
+3. **`checklist.md`** - Updated with "Failed" status and cross-references
+
+### Impact Assessment
+
+This is a **CRITICAL BLOCKER** because:
+- `--json` is the **DEFAULT** serialization format in HTTPie's design
+- spie defaults to form data instead, breaking command compatibility
+- Users cannot explicitly force JSON serialization with spie
+- Any HTTPie scripts using `--json` will fail when run with spie
+[0;32m✓ json-flag[0m

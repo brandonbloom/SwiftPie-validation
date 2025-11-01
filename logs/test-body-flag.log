@@ -1,0 +1,45 @@
+[1;33mTesting feature: body-flag[0m
+Perfect! Let me create a summary:
+
+## Test Summary: body-flag
+
+I have successfully tested the `--body, -b` feature for HTTPie and completed the following:
+
+### Test Results
+
+**Feature:** `--body, -b` - Print only response body (shortcut for `--print=b`)
+
+**Test Status:** ❌ **FAILED**
+
+### Key Findings
+
+1. **http (reference implementation):**
+   - Supports `--body` and `-b` flags
+   - Prints only the response body when used
+   - Headers and metadata are suppressed
+
+2. **spie (implementation under test):**
+   - Does NOT implement `--body` flag
+   - Does NOT implement `--print` option (which is the equivalent functionality)
+   - Always prints both headers and body (no way to suppress headers)
+
+### Deviation
+
+This is a **feature gap** in spie. The `--body` flag and the underlying `--print` option for output control are not implemented. This affects users who want to:
+- Print only response bodies
+- Process JSON responses without header noise
+- Create output-only pipelines
+
+### Documentation Generated
+
+1. **features/body-flag.md** - Comprehensive test report with:
+   - Feature description
+   - Detailed test results for both implementations
+   - Side-by-side comparison
+   - Deviation analysis
+   - Related feature references
+
+2. **checklist.md** - Updated test status for body-flag from "Not Tested" to "Failed" with reference to the feature documentation
+
+All tasks have been completed and tracked in the todo list.
+[0;32m✓ body-flag[0m

@@ -1,0 +1,26 @@
+[1;33mTesting feature: proxy-option[0m
+## Summary
+
+I've completed testing the **proxy-option** feature and documented the results in `/Users/bbloom/Projects/httpie-delta/features/proxy-option.md`.
+
+### Key Findings:
+
+**Status:** 🔴 **BLOCKED** - Feature deviation identified
+
+**Feature Availability:**
+- ✅ **http CLI** (v3.2.4): Fully supports `--proxy PROTOCOL:PROXY_URL` option
+- ❌ **spie CLI**: Does NOT support the `--proxy` option
+
+**Details:**
+The `--proxy` flag is a significant network feature that allows routing HTTP/HTTPS requests through proxy servers. This is useful for:
+- Corporate network environments with proxy requirements
+- Security testing and traffic inspection
+- Geographic routing and load balancing
+
+The `http` CLI implementation supports:
+- Per-protocol proxy configuration (HTTP, HTTPS, etc.)
+- Multiple proxy definitions
+- Environment variable support ($HTTP_PROXY, $HTTPS_PROXY, $ALL_PROXY)
+
+**Recommendation:** This is a blocking issue for feature parity. The `--proxy` option should be implemented in spie to match HTTPie's functionality.
+[0;32m✓ proxy-option[0m

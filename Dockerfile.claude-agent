@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install HTTPie and spie
+RUN pip install --no-cache-dir httpie
+
+# Copy scripts into the image
+COPY scripts /workspace/scripts
+RUN chmod +x /workspace/scripts/*.sh
+
+# Set working directory
+WORKDIR /workspace
+
+# Default entrypoint for feature testing
+# Can be overridden with docker-compose command override
+ENTRYPOINT ["/workspace/scripts/run-feature-tests-headless.sh"]
+CMD ["json-flag,form-flag,auth-option", "4"]

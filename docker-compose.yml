@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # HTTPBin test server
+  httpbin:
+    image: kennethreitz/httpbin:latest
+    ports:
+      - "8888:80"
+    environment:
+      - GUNICORN_CMD_ARGS=--bind=0.0.0.0:80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/get"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - testing
+
+  # Claude CLI agent runner (headless mode)
+  claude-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.claude-agent
+    depends_on:
+      httpbin:
+        condition: service_healthy
+    environment:
+      - HTTPBIN_URL=http://httpbin:80
+      - CLAUDE_HEADLESS_MODE=true
+      - FEATURE_BATCH=${FEATURE_BATCH:-}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+    volumes:
+      - .:/workspace
+      - ./logs:/workspace/logs
+    working_dir: /workspace
+    networks:
+      - testing
+    # Note: The actual test command is provided via override or entrypoint
+    # This service runs the orchestrator script that spawns individual feature tests
+
+  # Orchestrator service that coordinates the full test run
+  orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.orchestrator
+    depends_on:
+      httpbin:
+        condition: service_healthy
+      claude-agent:
+        condition: service_started
+    environment:
+      - HTTPBIN_URL=http://httpbin:80
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+      - WORK_DIR=/workspace
+    volumes:
+      - .:/workspace
+      - ./logs:/workspace/logs
+    working_dir: /workspace
+    networks:
+      - testing
+    # Orchestrator handles batching, feature selection, and checklist updates
+
+networks:
+  testing:
+    driver: bridge

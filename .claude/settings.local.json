@@ -15,7 +15,13 @@
       "Bash(curl:*)",
       "Bash(/Users/bbloom/Projects/httpie-delta/scripts/extract-features.sh:*)",
       "Bash(/tmp/http-help.txt)",
-      "Bash(/Users/bbloom/Projects/httpie-delta/scripts/parse-help.py)"
+      "Bash(/Users/bbloom/Projects/httpie-delta/scripts/parse-help.py)",
+      "Bash(docker-compose build:*)",
+      "Bash(./scripts/run-feature-tests-headless.sh:*)",
+      "Bash(wait:*)",
+      "Bash(while pgrep -f \"run-feature-tests-headless.sh\")",
+      "Bash(do sleep 10)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

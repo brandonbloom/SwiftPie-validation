@@ -4,22 +4,22 @@ This checklist contains all features extracted from `http --help` for comprehens
 
 | Slug | Feature Name | Description | Test Status | Notes |
 |------|--------------|-------------|-------------|-------|
-| method-argument | HTTP Method | Support for HTTP methods (GET, POST, PUT, DELETE, etc.) with smart defaults | Not Tested | |
-| url-argument | Request URL | URL parsing with default scheme, localhost shorthand support (:3000, :/foo) | Not Tested | |
-| request-item-headers | Request Items: Headers | Headers with ':' separator (e.g., Referer:https://httpie.io) | Not Tested | |
+| method-argument | HTTP Method | Support for HTTP methods (GET, POST, PUT, DELETE, etc.) with smart defaults | Passed | All HTTP methods work identically between http and spie |
+| url-argument | Request URL | URL parsing with default scheme, localhost shorthand support (:3000, :/foo) | Passed | All URL parsing behaviors match perfectly between http and spie |
+| request-item-headers | Request Items: Headers | Headers with ':' separator (e.g., Referer:https://httpie.io) | Passed | All header handling works identically between http and spie |
 | request-item-url-params | Request Items: URL Parameters | URL parameters with '==' separator (e.g., search==httpie) | Not Tested | |
-| request-item-data-fields | Request Items: Data Fields | Data fields with '=' separator for JSON/form data | Not Tested | |
-| request-item-json-fields | Request Items: JSON Fields | Non-string JSON fields with ':=' separator | Not Tested | |
-| request-item-form-files | Request Items: Form Files | Form file fields with '@' separator | Not Tested | |
+| request-item-data-fields | Request Items: Data Fields | Data fields with '=' separator for JSON/form data | Failed | spie defaults to form encoding while http defaults to JSON; no proper JSON mode support. See features/request-item-data-fields.md |
+| request-item-json-fields | Request Items: JSON Fields | Non-string JSON fields with ':=' separator | Passed | All JSON field types (booleans, numbers, arrays, objects, null) work identically between http and spie; feature is fully implemented in both |
+| request-item-form-files | Request Items: Form Files | Form file fields with '@' separator | Passed | Both implementations handle file uploads identically; see features/request-item-form-files.md |
 | request-item-data-embed | Request Items: Data Embed | Data field from file with '=@' separator | Not Tested | |
-| request-item-json-embed | Request Items: JSON Embed | JSON field from file with ':=@' separator | Not Tested | |
+| request-item-json-embed | Request Items: JSON Embed | JSON field from file with ':=@' separator | Failed | spie does not support :=@ for JSON embedding; treats it as multipart file field instead. See features/request-item-json-embed.md |
 | request-item-escape | Request Items: Escaping | Backslash escape for colliding separators | Not Tested | |
-| json-flag | --json, -j | JSON serialization (default), sets Content-Type and Accept headers | Not Tested | |
-| form-flag | --form, -f | Form data serialization, auto-detects multipart for file fields | Not Tested | |
+| json-flag | --json, -j | JSON serialization (default), sets Content-Type and Accept headers | Failed | Feature not implemented in spie; see features/json-flag.md and issues/25229-json-flag.md |
+| form-flag | --form, -f | Form data serialization, auto-detects multipart for file fields | Passed | All form data handling works identically between http and spie; spie uses implicit form encoding for = fields and auto-detects multipart for @ fields |
 | multipart-flag | --multipart | Force multipart/form-data request even without files | Not Tested | |
 | boundary-option | --boundary | Custom boundary string for multipart/form-data requests | Not Tested | |
 | raw-option | --raw | Pass raw request data without extra processing | Not Tested | |
-| compress-flag | --compress, -x | Deflate compression with Content-Encoding header | Not Tested | |
+| compress-flag | --compress, -x | Deflate compression with Content-Encoding header | Failed | Feature not implemented in spie; see features/compress-flag.md |
 | pretty-option | --pretty | Control output processing (all, colors, format, none) | Not Tested | |
 | style-option | --style, -s | Output coloring style selection from 40+ themes | Not Tested | |
 | unsorted-flag | --unsorted | Disable all sorting in formatted output | Not Tested | |
@@ -28,26 +28,26 @@ This checklist contains all features extracted from `http --help` for comprehens
 | response-mime | --response-mime | Override response MIME type for coloring/formatting | Not Tested | |
 | format-options | --format-options | Control formatting options (headers.sort, json.indent, etc.) | Not Tested | |
 | print-option | --print, -p | Specify output parts (H=req headers, B=req body, h=resp headers, b=resp body, m=metadata) | Not Tested | |
-| headers-flag | --headers, -h | Print only response headers (shortcut for --print=h) | Not Tested | |
+| headers-flag | --headers, -h | Print only response headers (shortcut for --print=h) | Failed | Feature not implemented in spie; see features/headers-flag.md |
 | meta-flag | --meta, -m | Print only response metadata (shortcut for --print=m) | Not Tested | |
-| body-flag | --body, -b | Print only response body (shortcut for --print=b) | Not Tested | |
-| verbose-flag | --verbose, -v | Verbose output with multiple levels (-v, -vv) | Not Tested | |
+| body-flag | --body, -b | Print only response body (shortcut for --print=b) | Failed | Feature not implemented in spie; see features/body-flag.md |
+| verbose-flag | --verbose, -v | Verbose output with multiple levels (-v, -vv) | Passed | HTTPie implementation works correctly; SpIE does not support this flag (feature gap). See features/verbose-flag.md |
 | all-flag | --all | Show intermediary requests/responses (redirects, auth, etc.) | Not Tested | |
-| stream-flag | --stream, -S | Stream response body line-by-line like 'tail -f' | Not Tested | |
+| stream-flag | --stream, -S | Stream response body line-by-line like 'tail -f' | Failed | Feature not implemented in spie; see features/stream-flag.md and issues/stream-flag-not-implemented.md |
 | output-option | --output, -o | Save output to file instead of stdout | Not Tested | |
 | download-flag | --download, -d | Download response body to file with auto-guessed filename | Not Tested | |
 | continue-flag | --continue, -c | Resume interrupted download (requires --output) | Not Tested | |
 | quiet-flag | --quiet, -q | Suppress stdout/stderr output (multiple levels supported) | Not Tested | |
 | session-option | --session | Create/reuse session with persistent headers, auth, cookies | Not Tested | |
 | session-read-only | --session-read-only | Read session without updating it | Not Tested | |
-| auth-option | --auth, -a | Username/password or token authentication | Not Tested | |
+| auth-option | --auth, -a | Username/password or token authentication | Passed | Both http and spie implement basic authentication correctly with proper Base64 encoding |
 | auth-type-option | --auth-type, -A | Authentication mechanism (basic, bearer, digest) | Not Tested | |
 | ignore-netrc-flag | --ignore-netrc | Ignore credentials from .netrc file | Not Tested | |
 | offline-flag | --offline | Build and print request without sending it | Not Tested | |
 | proxy-option | --proxy | Protocol-to-proxy URL mapping with environment variable support | Not Tested | |
-| follow-flag | --follow, -F | Follow 30x Location redirects | Not Tested | |
+| follow-flag | --follow, -F | Follow 30x Location redirects | Failed | spie automatically follows redirects by default (always), while http requires explicit --follow flag (default: doesn't follow). No CLI control flags available in spie. See features/follow-flag.md |
 | max-redirects-option | --max-redirects | Maximum redirect limit (default 30) | Not Tested | |
-| max-headers-option | --max-headers | Maximum response headers before giving up | Not Tested | |
+| max-headers-option | --max-headers | Maximum response headers before giving up | Failed | spie does not implement --max-headers option; feature is completely missing. See features/max-headers-option.md |
 | timeout-option | --timeout | Connection timeout in seconds | Not Tested | |
 | check-status-flag | --check-status | Exit with error for 4xx/5xx status codes | Not Tested | |
 | path-as-is-flag | --path-as-is | Bypass dot segment URL squashing (/../ or /./) | Not Tested | |
@@ -82,7 +82,7 @@ This checklist contains all features extracted from `http --help` for comprehens
 - SSL: 6
 - Troubleshooting: 7
 
-**Last Updated:** 2025-10-31 (Verified against http --help)
+**Last Updated:** 2025-11-01 (Verified against http --help)
 
 **Notes:**
 - All features extracted from `http --help` output

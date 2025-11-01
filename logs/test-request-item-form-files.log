@@ -1,0 +1,53 @@
+Testing feature: request-item-form-files
+
+Test Environment:
+- HTTPie Version: 3.2.4
+- SpIE Version: Swift-based implementation
+- HTTPBin Server: http://localhost:8888
+- Test Date: 2025-11-01
+
+Test Cases:
+
+1. Single File Upload
+   - HTTPie: http --form --ignore-stdin POST http://localhost:8888/post file@test1.txt
+   - SpIE: spie POST http://localhost:8888/post file@test1.txt
+   - Result: PASS ✓ (Both implementations correctly upload file)
+
+2. Multiple File Uploads
+   - HTTPie: http --form --ignore-stdin POST http://localhost:8888/post file1@test1.txt file2@test2.json
+   - SpIE: spie POST http://localhost:8888/post file1@test1.txt file2@test2.json
+   - Result: PASS ✓ (Both handle multiple files correctly)
+
+3. Mixed Form Data and Files
+   - HTTPie: http --form --ignore-stdin POST http://localhost:8888/post name=John age=30 resume@test1.txt
+   - SpIE: spie POST http://localhost:8888/post name=John age=30 resume@test1.txt
+   - Result: PASS ✓ (Both correctly mix form fields and files)
+
+4. Special Characters in Filename
+   - HTTPie: http --form --ignore-stdin POST http://localhost:8888/post document@"file with spaces.txt"
+   - SpIE: spie POST http://localhost:8888/post document@"file with spaces.txt"
+   - Result: PASS ✓ (Both handle spaces in filenames)
+
+5. Non-existent File (Error Handling)
+   - HTTPie: http --form --ignore-stdin POST http://localhost:8888/post file@nonexistent.txt
+   - SpIE: spie POST http://localhost:8888/post file@nonexistent.txt
+   - Result: PASS ✓ (Both provide appropriate error messages)
+
+Test Results Summary:
+- Total Tests: 5
+- Passed: 5 (100%)
+- Failed: 0
+- Deviations: None detected
+- Overall Status: PASSED ✓
+
+Key Findings:
+1. Both implementations correctly handle form file uploads with @ separator
+2. Multipart/form-data encoding is automatically detected and applied
+3. HTTPie requires --form flag; SpIE uses implicit form encoding for @ fields
+4. Content-Type and boundary parameters are correctly set
+5. File contents are preserved accurately in multipart requests
+6. Error handling for missing files is appropriate in both tools
+7. Special characters in filenames are handled correctly
+
+No compatibility issues detected. Feature is fully compatible between implementations.
+[0;32m✓ request-item-form-files[0m

@@ -1,0 +1,35 @@
+[1;33mTesting feature: request-item-json-embed[0m
+Perfect! I've completed the comprehensive test of the `request-item-json-embed` feature. Here's a summary of my findings:
+
+## Test Summary
+
+**Feature:** request-item-json-embed (`:=@` separator for JSON file embedding)
+
+**Status:** ❌ **FAILED**
+
+### Key Findings:
+
+1. **http (HTTPie)** - ✅ Fully implements the feature:
+   - Correctly loads JSON from files using `:=@` syntax
+   - Parses the JSON and embeds it in the request body
+   - Automatically sets `Content-Type: application/json`
+   - Works with simple objects, nested objects, and arrays
+   - Properly handles mixed fields (regular fields + JSON embedding)
+
+2. **spie** - ❌ Does not implement the feature:
+   - Does not recognize the `:=@` operator for JSON embedding
+   - Treats it as a multipart form file field instead
+   - Sends requests with `Content-Type: multipart/form-data`
+   - Places file content in the `files` section rather than parsing and embedding JSON
+
+### Tests Performed:
+- Simple JSON object embedding from file
+- Nested object embedding
+- Array embedding
+- Mixed fields (combining regular `=` fields with `:=@` JSON embedding)
+
+### Documentation:
+Created comprehensive feature test report at `/Users/bbloom/Projects/httpie-delta/features/request-item-json-embed.md` with detailed test results and recommendations for implementation.
+
+Updated the checklist to reflect the failed status and reference the feature documentation.
+[0;32m✓ request-item-json-embed[0m

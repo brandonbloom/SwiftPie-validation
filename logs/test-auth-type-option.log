@@ -1,0 +1,28 @@
+[1;33mTesting feature: auth-type-option[0m
+Perfect! I've completed testing the `auth-type-option` feature. Here's a summary:
+
+## Test Summary: auth-type-option
+
+I've thoroughly tested the `--auth-type` option for both `http` and `spie` implementations. Here are the key findings:
+
+### ✅ Supported Features
+- **Basic authentication** - Both tools support `--auth-type basic`
+- **Bearer authentication** - Both tools support `--auth-type bearer`
+
+### ❌ Deviations Found
+
+1. **Digest Authentication**: 
+   - `http` supports it (`--auth-type digest`)
+   - `spie` explicitly rejects it with error: "unsupported auth type 'digest'"
+
+2. **Shorthand Flag (`-A`)**:
+   - `http` supports the short form (`-A basic`)
+   - `spie` does NOT support `-A` and returns: "unknown option '-A'"
+
+### Test Endpoint Results
+- Both tools correctly set the `Authorization` header with proper formatting
+- Basic auth uses Base64 encoding (e.g., `Authorization: Basic dXNlcjpwYXNz`)
+- Bearer auth uses token format (e.g., `Authorization: Bearer token123`)
+
+The full test results have been documented in `/Users/bbloom/Projects/httpie-delta/features/auth-type-option.md`.
+[0;32m✓ auth-type-option[0m

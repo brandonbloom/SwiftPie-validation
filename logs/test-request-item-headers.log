@@ -1,0 +1,50 @@
+Testing feature: request-item-headers
+
+Feature: Request Items: Headers
+Description: Headers with ':' separator (e.g., Referer:https://httpie.io)
+
+Test Summary:
+=============
+
+Test 1: Simple Header ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything Referer:https://httpie.io
+  Result: Both http and spie correctly send the Referer header
+
+Test 2: Multiple Headers ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything Referer:https://httpie.io X-Custom-Header:TestValue
+  Result: Both tools correctly send multiple headers
+
+Test 3: Header with Special Characters ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything "Authorization:Bearer token123"
+  Result: Both tools correctly handle authorization headers with bearer tokens
+
+Test 4: Header Override ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything Accept:application/json
+  Result: Both tools correctly override the default Accept header
+
+Test 5: Header with Empty Value ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything "X-Empty:"
+  Result: Both tools correctly omit headers with empty values
+
+Test 6: Header with Colon in Value ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything "Time:12:30:45"
+  Result: Both tools correctly handle colons in header values
+
+Test 7: Header Case Sensitivity ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything "x-test:value1" "X-Test:value2"
+  Result: Both tools correctly handle duplicate headers with different cases
+
+Test 8: Standard Header (Content-Type) ✓ PASSED
+  Command: http --ignore-stdin POST http://localhost:8888/anything "Content-Type:application/xml"
+  Result: Both tools correctly set custom Content-Type header
+
+Test 9: Multiple Custom Headers ✓ PASSED
+  Command: http --ignore-stdin http://localhost:8888/anything X-Header-1:value1 ... X-Header-5:value5
+  Result: Both tools correctly handle multiple custom headers
+
+Overall Status: PASSED
+======================
+All 9 tests passed successfully. Both http and spie handle request-item-headers identically.
+
+No deviations found between implementations.
+[0;32m✓ request-item-headers[0m

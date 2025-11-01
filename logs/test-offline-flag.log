@@ -1,0 +1,39 @@
+[1;33mTesting feature: offline-flag[0m
+Perfect! Let me now create a summary of my findings:
+
+## Offline Flag Testing Complete ✅
+
+I've completed comprehensive testing of the HTTPie `--offline` flag feature. Here are the key findings:
+
+### Test Summary
+- **Total Tests:** 14
+- **Passed:** 12
+- **Failed:** 2
+
+### Core Functionality (Working)
+The `--offline` flag correctly:
+- Builds and prints HTTP requests without sending them
+- Handles GET, POST, PUT, PATCH, DELETE requests
+- Supports authentication (Basic Auth and Bearer tokens)
+- Processes URL query parameters (with `==` syntax)
+- Handles JSON data fields (with `:=` syntax)
+- Works with piped JSON input
+- Respects output control flags (`--quiet`, `--verbose`, `--stream`)
+- Works with the `--print` flag for selective output
+
+### Identified Issues
+
+**Critical Issue:** Method inference crashes when mixing data types without an explicit method
+- Command: `http --offline https://httpbin.org/post --ignore-stdin name=value age:=25`
+- Error: `AssertionError` in `_guess_method()`
+- Workaround: Always explicitly specify the HTTP method
+
+**UX Issue:** Headers must come after URL
+- Incorrect: `http --offline X-Custom-Header:test-value GET https://api.example.com`
+- Correct: `http --offline GET https://api.example.com X-Custom-Header:test-value`
+
+### Comparison Note
+The alternative tool `spie` (SwiftPie) does not have an offline flag equivalent.
+
+A detailed test report has been created at `/Users/bbloom/Projects/httpie-delta/OFFLINE_FLAG_TEST_REPORT.md` documenting all test cases, results, and recommendations.
+[0;32m✓ offline-flag[0m

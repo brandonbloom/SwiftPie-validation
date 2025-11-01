@@ -1,0 +1,32 @@
+[1;33mTesting feature: request-item-data-fields[0m
+## Summary
+
+I've completed the feature test for **request-item-data-fields**. Here are the results:
+
+### Test Status: **FAILED** ❌
+
+### Critical Finding
+The implementations have fundamentally different default behaviors for data fields (`=` separator):
+
+| Aspect | http | spie |
+|--------|------|------|
+| Default Content-Type | `application/json` | `application/x-www-form-urlencoded` |
+| Request Body Format | JSON object `{"name": "John"}` | Form data `name=John` |
+| Behavior | Sends as JSON by default | Always sends as form data |
+
+### Test Evidence
+**Command:** `http POST http://localhost:8888/post name=John`
+
+- **http**: Sends JSON with `Content-Type: application/json`, body is `{"name": "John"}`
+- **spie**: Sends form data with `Content-Type: application/x-www-form-urlencoded`, body is `name=John`
+
+### Impact
+This is a breaking incompatibility that would cause:
+1. REST APIs expecting JSON to receive form data instead
+2. Scripts relying on default JSON encoding to fail
+3. Inability to replicate http behavior without `--json` flag support
+
+### Deliverables
+1. ✅ Created `/Users/bbloom/Projects/httpie-delta/features/request-item-data-fields.md` with detailed test results
+2. ✅ Updated `/Users/bbloom/Projects/httpie-delta/checklist.md` with "Failed" status and reference to documentation
+[0;32m✓ request-item-data-fields[0m

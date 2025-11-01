@@ -1,0 +1,43 @@
+[1;33mTesting feature: max-headers-option[0m
+Excellent! Let me create a summary of the test results:
+
+## Testing Summary: max-headers-option
+
+I have completed comprehensive testing of the `--max-headers` option feature. Here are the findings:
+
+### Test Coverage
+
+**http Implementation** ✓
+- ✓ Default behavior (--max-headers=0 for no limit)
+- ✓ Large header limits work correctly
+- ✓ Restrictive limits properly enforce header count limits
+- ✓ Input validation for non-integer values
+
+**spie Implementation** ✗
+- ✗ Option not recognized (returns "unknown option" error)
+- ✗ Not listed in help output
+- ✗ Complete feature absence
+
+### Key Findings
+
+**CRITICAL DEVIATION**: The `--max-headers` option is completely missing from spie.
+
+| Aspect | http | spie |
+|--------|------|------|
+| Supports --max-headers | Yes | No |
+| Validates integer input | Yes | N/A |
+| Enforces header limits | Yes | N/A |
+| Default (0 = no limit) | Yes | N/A |
+
+### Test Results
+
+1. **http --max-headers=0** → SUCCESS (no limit applied)
+2. **http --max-headers=100** → SUCCESS (limit not exceeded)
+3. **http --max-headers=1** → FAILURE (connection aborted, as expected)
+4. **spie --max-headers=0** → ERROR (unknown option)
+5. **spie --max-headers=100** → ERROR (unknown option)
+
+### Documentation
+
+Complete test documentation has been written to `/Users/bbloom/Projects/httpie-delta/features/max-headers-option.md` with detailed results for all test cases, and the checklist has been updated to reflect the FAILED status of this feature in spie.
+[0;32m✓ max-headers-option[0m

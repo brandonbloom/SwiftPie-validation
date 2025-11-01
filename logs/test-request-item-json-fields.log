@@ -1,0 +1,36 @@
+[1;33mTesting feature: request-item-json-fields[0m
+Perfect! Let me create a summary of the testing results:
+
+## Feature Test Summary: `request-item-json-fields`
+
+**Status: ✅ PASSED**
+
+### Overview
+I have completed comprehensive testing of the `request-item-json-fields` feature (`:=` separator for JSON request items). Both `http` and `spie` implementations are **fully compatible** with no deviations found.
+
+### Test Results
+
+All 7 test cases passed with matching behavior between implementations:
+
+1. **Boolean values** (`flag:=true`, `flag:=false`) - ✅ Both correctly serialize
+2. **Integer values** (`count:=42`) - ✅ Both correctly serialize
+3. **Float values** (`price:=19.99`) - ✅ Both correctly serialize
+4. **Array values** (`colors:=["red","green","blue"]`) - ✅ Both correctly parse and serialize
+5. **Object values** (`meta:={"key":"value"}`) - ✅ Both correctly parse and serialize
+6. **Null values** (`empty:=null`) - ✅ Both correctly serialize
+7. **Mixed fields** (`name=John flag:=true count:=42`) - ✅ Both correctly handle mixed string and JSON fields
+
+### Key Findings
+
+- **Type Preservation**: JSON types are correctly preserved in the request body
+- **Content-Type**: Both automatically set `Content-Type: application/json` when JSON fields are used
+- **Default Behavior**: Both default to JSON serialization for the `:=` operator
+- **No Issues**: No deviations between implementations detected
+
+### Deliverables
+
+1. **Feature Documentation**: `/features/request-item-json-fields.md` - Complete test plan and detailed results
+2. **Checklist Updated**: `checklist.md` - Feature status marked as "Passed"
+
+The feature is production-ready and fully supported in both implementations.
+[0;32m✓ request-item-json-fields[0m

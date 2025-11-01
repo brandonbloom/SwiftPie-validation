@@ -1,0 +1,39 @@
+[1;33mTesting feature: follow-flag[0m
+Perfect! Let me create a summary of the test results:
+
+## Summary
+
+I've completed comprehensive testing of the **HTTPie `--follow` flag** feature (follow-flag). Here are the key findings:
+
+### Test Results: **FAILED** ❌
+
+**Feature Parity Gap Identified:**
+
+| Aspect | http | spie |
+|--------|------|------|
+| `--follow` flag | ✓ Implemented | ✗ Not available |
+| `-F` short form | ✓ Implemented | ✗ Not available |
+| Default behavior | Does NOT follow redirects | ALWAYS follows redirects |
+| Max redirects control | ✓ Via `--max-redirects` | ✗ Not available |
+
+### Critical Findings
+
+1. **Behavioral Inversion:** spie automatically follows all redirects by default, while http requires the explicit `--follow` flag to follow redirects
+2. **Missing CLI Flags:** The `--follow` and `-F` flags are completely unsupported in spie
+3. **No User Control:** Users cannot prevent redirect following in spie (forced behavior)
+4. **Missing Options:** The `--max-redirects` option for redirect limit control is unavailable
+
+### Actual Test Results
+
+- **http --follow GET http://httpbin.org/redirect/1** → 200 OK (followed redirect) ✓
+- **http GET http://httpbin.org/redirect/1** → 302 FOUND (didn't follow) ✓
+- **spie GET http://httpbin.org/redirect/1** → 200 OK (followed by default, no option to disable) ⚠
+- **spie --follow GET http://httpbin.org/redirect/1** → Error: unknown option '--follow' ✗
+
+### Deliverables Created
+
+1. **features/follow-flag.md** - Comprehensive test documentation with all test cases, results, and findings
+2. **Updated checklist.md** - Marked follow-flag as "Failed" with detailed notes
+
+The feature test is complete and documented in `/Users/bbloom/Projects/httpie-delta/features/follow-flag.md`.
+[0;32m✓ follow-flag[0m

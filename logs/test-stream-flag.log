@@ -1,0 +1,43 @@
+[1;33mTesting feature: stream-flag[0m
+Excellent! I have completed the testing of the **stream-flag** feature. Here's a summary of my findings:
+
+## Test Summary for stream-flag
+
+### Feature: --stream, -S (Stream response body line-by-line)
+
+**Test Status: ❌ FAILED**
+
+### Key Findings:
+
+1. **HTTPie (http) Support**: The `--stream` flag works correctly in HTTPie, enabling line-by-line streaming of response bodies from the `/stream/N` endpoint.
+
+2. **spie Support**: The `--stream` flag is **not implemented** in spie:
+   - Using `--stream` returns: `error: unknown option '--stream'` (exit code 64)
+   - Using `-S` returns: `error: unknown option '-S'` (exit code 64)
+   - The flag is completely absent from spie's help output
+
+3. **Use Cases Affected**:
+   - Server-Sent Events (SSE) streaming
+   - Twitter Streaming API compatibility
+   - Log streaming and real-time data feeds
+   - Any long-lived HTTP connections
+
+### Documentation Created:
+
+1. **features/stream-flag.md** - Comprehensive test documentation showing:
+   - Test plan and expected behavior
+   - Detailed comparison of http vs spie behavior
+   - Evidence of the deviation
+
+2. **issues/stream-flag-not-implemented.md** - Detailed issue report documenting:
+   - Current behavior vs expected behavior
+   - HTTPie documentation reference
+   - Implementation notes for future fixing
+   - Use cases affected
+
+3. **checklist.md** - Updated with:
+   - Status changed from "Not Tested" to "Failed"
+   - References to the feature documentation and issue file
+
+All tasks have been completed and documented.
+[0;32m✓ stream-flag[0m

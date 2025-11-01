@@ -25,14 +25,38 @@ Parses HTTPie help text and converts to structured JSON format.
 
 ### start-httpbin.sh
 Starts httpbin server using Docker on port 8888.
-- Used by: Orchestrator in `/run-tests` command
-- Output: Status messages and exit code
-- Verifies connectivity before returning
+- **Used by**: Orchestrator in `/run-tests` command
+- **Output**: Status messages and exit code
+- **Verifies**: Connectivity before returning
+
+### run-feature-tests-headless.sh
+Orchestrates headless feature testing with Claude CLI.
+- **Used by**: Direct invocation for batch testing
+- **Output**: Color-coded results + logs in logs/ directory
+- **Arguments**:
+  - `$1`: Comma-separated feature slugs (required)
+  - `$2`: Max parallel jobs (default: 4)
+- **Example**: `./run-feature-tests-headless.sh "json-flag,form-flag" 4`
+
+### orchestrate-tests.sh
+Manages feature test batches and result aggregation.
+- **Used by**: Docker orchestrator service
+- **Output**: Batch results and checklist updates
+- **Environment**: `WORK_DIR`, `FEATURE_BATCH` (optional)
 
 ## Script Development Guidelines
 
-1. All scripts should be idempotent (safe to run multiple times)
-2. Scripts should be focused and single-purpose
-3. Add clear comments explaining what each script does
-4. Always make scripts executable: `chmod +x script.sh`
-5. Exit with appropriate codes (0 for success, non-zero for failure)
+1. **Idempotency**: All scripts should be safe to run multiple times
+2. **Single Purpose**: Each script has one clear responsibility
+3. **Documentation**: Add comments explaining what each script does
+4. **Executable**: Always run `chmod +x script.sh` after creating
+5. **Exit Codes**: Use 0 for success, non-zero for failure
+6. **No Ad-hoc Code**: Never create scripts via heredoc
+7. **File-based**: Store permanently in ./scripts/ for reuse
+
+## Script Approval & Reuse
+
+✓ **All scripts in this directory are pre-approved**
+- Can be run directly without seeking additional approval
+- Designed for reuse across multiple test runs
+- Changes to scripts require only local editing
