@@ -1,1 +1,34 @@
 [1;33mTesting feature: all-flag[0m
+## Summary
+
+I've completed comprehensive testing of the **--all flag** feature for HTTPie/spie. Here are the key findings:
+
+### Test Results: **FAILED** ✗
+
+**Critical Issue**: The `--all` flag is **not implemented** in spie.
+
+### What I Tested:
+
+1. **Redirect Chains with --all and --follow**
+   - `http --all --follow` correctly shows BOTH the intermediate 302 redirect response AND the final 200 OK response
+   - `spie --all` produces an error: `error: unknown option '--all'`
+
+2. **Baseline (without --all)**
+   - `http --follow` (without --all) shows only the final response
+   - This establishes the expected behavior difference
+
+### Documentation Created:
+
+- **features/all-flag.md** - Comprehensive test documentation with:
+  - Feature specification
+  - Test cases with actual output
+  - Detailed comparison table
+  - Root cause analysis
+  
+- **issues/all-flag-not-implemented.md** - Issue tracker documenting:
+  - Expected vs actual behavior
+  - Impact on users
+  - Severity: HIGH
+
+The `--all` flag allows users to see intermediary HTTP transactions like redirects and authentication challenges, which is essential for debugging. This feature is completely missing from spie.
+[0;32m✓ all-flag[0m

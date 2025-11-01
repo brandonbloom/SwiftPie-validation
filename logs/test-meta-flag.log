@@ -1,1 +1,64 @@
-[1;33mTesting feature: meta-flag[0m
+Testing feature: meta-flag
+
+Test Environment:
+- httpbin: http://localhost:8888
+- HTTPie: /opt/homebrew/bin/http
+- SPIE: /Users/bbloom/Projects/httpie-delta/bin/spie
+
+=== Test Results ===
+
+Test 1: Basic GET with --meta flag
+Command: http --meta GET http://localhost:8888/get
+HTTPie Output: Elapsed time: 0.005553s
+SPIE Output: error: unknown option '--meta'
+Result: FAILED (SPIE missing feature)
+
+Test 2: POST with --meta flag
+Command: http --ignore-stdin --meta POST http://localhost:8888/post name=John age:=30
+HTTPie Output: Elapsed time: 0.006157084s
+SPIE Output: error: unknown option '--meta'
+Result: FAILED (SPIE missing feature)
+
+Test 3: 404 response with --meta flag
+Command: http --meta GET http://localhost:8888/status/404
+HTTPie Output: Elapsed time: 0.005014s
+SPIE Output: error: unknown option '--meta'
+Result: FAILED (SPIE missing feature)
+
+Test 4: Short form -m flag
+Command: http -m GET http://localhost:8888/get
+HTTPie Output: Elapsed time: 0.004753291s
+SPIE Output: error: unknown option '-m'
+Result: FAILED (SPIE missing feature)
+
+Test 5: Meta flag with custom headers
+Command: http -m GET http://localhost:8888/headers X-Custom:TestValue
+HTTPie Output: Elapsed time: 0.002999834s
+SPIE Output: N/A (feature not implemented)
+Result: FAILED (SPIE missing feature)
+
+=== Feature Implementation Status ===
+
+HTTPie:
+- --meta flag: ✅ Fully implemented
+- -m shorthand: ✅ Fully implemented
+- Works across all HTTP methods: ✅ Yes
+- Works with error responses: ✅ Yes
+- Output format: Consistent (shows elapsed time in seconds)
+
+SPIE:
+- --meta flag: ❌ Not implemented
+- -m shorthand: ❌ Not implemented
+- Feature parity: ❌ No
+
+=== Overall Assessment ===
+
+Status: FAILED
+Reason: Feature not implemented in SPIE
+Issue: Both --meta and -m flags are completely missing from SPIE
+Severity: Major (required output control feature)
+
+The --meta flag is a critical output control feature used in scripting scenarios.
+SPIE needs to implement both the long form (--meta) and short form (-m) to achieve
+feature parity with HTTPie.
+[0;32m✓ meta-flag[0m

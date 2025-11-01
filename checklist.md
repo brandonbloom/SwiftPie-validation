@@ -7,7 +7,7 @@ This checklist contains all features extracted from `http --help` for comprehens
 | method-argument | HTTP Method | Support for HTTP methods (GET, POST, PUT, DELETE, etc.) with smart defaults | Passed | All HTTP methods work identically between http and spie |
 | url-argument | Request URL | URL parsing with default scheme, localhost shorthand support (:3000, :/foo) | Passed | All URL parsing behaviors match perfectly between http and spie |
 | request-item-headers | Request Items: Headers | Headers with ':' separator (e.g., Referer:https://httpie.io) | Passed | All header handling works identically between http and spie |
-| request-item-url-params | Request Items: URL Parameters | URL parameters with '==' separator (e.g., search==httpie) | Not Tested | |
+| request-item-url-params | Request Items: URL Parameters | URL parameters with '==' separator (e.g., search==httpie) | Passed | Both implementations handle URL parameters identically. Minor cosmetic difference: http uses + for spaces while spie uses raw spaces in URL, but both result in identical query parameter values received by server. See features/request-item-url-params.md |
 | request-item-data-fields | Request Items: Data Fields | Data fields with '=' separator for JSON/form data | Failed | spie defaults to form encoding while http defaults to JSON; no proper JSON mode support. See features/request-item-data-fields.md |
 | request-item-json-fields | Request Items: JSON Fields | Non-string JSON fields with ':=' separator | Passed | All JSON field types (booleans, numbers, arrays, objects, null) work identically between http and spie; feature is fully implemented in both |
 | request-item-form-files | Request Items: Form Files | Form file fields with '@' separator | Passed | Both implementations handle file uploads identically; see features/request-item-form-files.md |
@@ -16,12 +16,12 @@ This checklist contains all features extracted from `http --help` for comprehens
 | request-item-escape | Request Items: Escaping | Backslash escape for colliding separators | Not Tested | |
 | json-flag | --json, -j | JSON serialization (default), sets Content-Type and Accept headers | Failed | Feature not implemented in spie; see features/json-flag.md and issues/25229-json-flag.md |
 | form-flag | --form, -f | Form data serialization, auto-detects multipart for file fields | Passed | All form data handling works identically between http and spie; spie uses implicit form encoding for = fields and auto-detects multipart for @ fields |
-| multipart-flag | --multipart | Force multipart/form-data request even without files | Not Tested | |
+| multipart-flag | --multipart | Force multipart/form-data request even without files | Failed | spie does not have --multipart flag; cannot force multipart without file fields. See features/multipart-flag.md |
 | boundary-option | --boundary | Custom boundary string for multipart/form-data requests | Not Tested | |
 | raw-option | --raw | Pass raw request data without extra processing | Not Tested | |
 | compress-flag | --compress, -x | Deflate compression with Content-Encoding header | Failed | Feature not implemented in spie; see features/compress-flag.md |
 | pretty-option | --pretty | Control output processing (all, colors, format, none) | Not Tested | |
-| style-option | --style, -s | Output coloring style selection from 40+ themes | Not Tested | |
+| style-option | --style, -s | Output coloring style selection from 40+ themes | Failed | Feature not implemented in spie; see features/style-option.md and issues/25230-style-option.md |
 | unsorted-flag | --unsorted | Disable all sorting in formatted output | Not Tested | |
 | sorted-flag | --sorted | Re-enable all sorting in formatted output | Not Tested | |
 | response-charset | --response-charset | Override response encoding for terminal display | Not Tested | |
@@ -29,7 +29,7 @@ This checklist contains all features extracted from `http --help` for comprehens
 | format-options | --format-options | Control formatting options (headers.sort, json.indent, etc.) | Not Tested | |
 | print-option | --print, -p | Specify output parts (H=req headers, B=req body, h=resp headers, b=resp body, m=metadata) | Not Tested | |
 | headers-flag | --headers, -h | Print only response headers (shortcut for --print=h) | Failed | Feature not implemented in spie; see features/headers-flag.md |
-| meta-flag | --meta, -m | Print only response metadata (shortcut for --print=m) | Not Tested | |
+| meta-flag | --meta, -m | Print only response metadata (shortcut for --print=m) | Failed | Feature not implemented in spie; see features/meta-flag.md |
 | body-flag | --body, -b | Print only response body (shortcut for --print=b) | Failed | Feature not implemented in spie; see features/body-flag.md |
 | verbose-flag | --verbose, -v | Verbose output with multiple levels (-v, -vv) | Passed | HTTPie implementation works correctly; SpIE does not support this flag (feature gap). See features/verbose-flag.md |
 | all-flag | --all | Show intermediary requests/responses (redirects, auth, etc.) | Not Tested | |

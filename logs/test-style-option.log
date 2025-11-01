@@ -1,1 +1,50 @@
 [1;33mTesting feature: style-option[0m
+Perfect! Let me create a summary of the test completion:
+
+## Test Completion Summary: style-option
+
+I have successfully completed comprehensive testing of the **style-option** feature (`--style, -s`). Here are the key findings:
+
+### Test Results
+
+**Status:** FAILED ✗
+
+The style-option feature is **not implemented in SpIE**, while HTTPie fully supports it.
+
+### Key Findings
+
+**HTTPie Support:**
+- Fully implements `--style` / `-s` option
+- Supports 40+ color themes (monokai, dracula, solarized-light, nord, vim, github-dark, etc.)
+- Special "auto" theme follows terminal ANSI colors
+- Proper error handling for invalid styles
+- Works with all HTTP methods and request types
+
+**SpIE Support:**
+- ✗ No `--style` option support
+- ✗ No `-s` short form support
+- ✗ Returns "error: unknown option '--style'" when used
+- Uses fixed, non-customizable coloring
+- Colors auto-disable when output is redirected
+
+### Test Outputs
+
+1. **Features/Tests Created:**
+   - `features/style-option.md` - Comprehensive test plan with 10 test cases
+   - `issues/25230-style-option.md` - Detailed issue documentation
+
+2. **Checklist Updated:**
+   - Updated `checklist.md` to mark style-option as "Failed"
+   - Added reference to feature and issue files
+
+### Deviations Documented
+
+| Aspect | HTTPie | SpIE | Status |
+|--------|--------|------|--------|
+| --style flag | ✓ Supported | ✗ Missing | Deviation |
+| Short form -s | ✓ Supported | ✗ Missing | Deviation |
+| Theme selection | ✓ 40+ themes | ✗ None | Deviation |
+| Color customization | ✓ Full control | ✗ No control | Deviation |
+
+All test results have been documented in the feature test file and the issue has been created for tracking the missing functionality.
+[0;32m✓ style-option[0m

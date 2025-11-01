@@ -1,1 +1,40 @@
 [1;33mTesting feature: request-item-data-embed[0m
+Excellent! I have completed testing the `request-item-data-embed` feature. Here's a summary of my findings:
+
+## Testing Summary: request-item-data-embed Feature
+
+### Feature Overview
+The `request-item-data-embed` (=@) feature allows users to read file contents and embed them as field values in requests.
+
+### Key Findings: FAILED ✗
+
+I identified **critical incompatibilities** between the http and spie implementations:
+
+1. **Content Type Mismatch**:
+   - `http`: Embeds files as JSON string values (application/json)
+   - `spie`: Treats all `=@` as multipart file uploads (multipart/form-data)
+
+2. **Missing --form Flag Support**:
+   - spie doesn't recognize the `--form` flag at all
+   - No way to explicitly control encoding
+
+3. **Semantic Misinterpretation**:
+   - `http`: `=@` means "read file content as string field value"
+   - `spie`: `=@` means "upload file as multipart" (wrong interpretation)
+
+4. **Field Name Corruption**:
+   - spie appends `=` to field names: `"file="` instead of `"file"`
+
+### Test Cases Executed
+
+✗ **Test 1**: Single data-embed field - INCOMPATIBLE
+✗ **Test 2**: JSON file embedding - INCOMPATIBLE
+✗ **Test 3**: Multiple data-embed fields - INCOMPATIBLE
+⚠ **Test 4**: With --form flag - BLOCKER (unsupported)
+✗ **Test 5**: Mixed regular and embedded fields - INCOMPATIBLE
+
+### Impact
+Applications expecting JSON payloads with embedded file content will receive multipart form uploads instead, causing failures for REST APIs and scripts expecting JSON format.
+
+The comprehensive test report has been saved to `/Users/bbloom/Projects/httpie-delta/features/request-item-data-embed.md` with detailed analysis of each test case and recommendations for fixing the implementation.
+[0;32m✓ request-item-data-embed[0m

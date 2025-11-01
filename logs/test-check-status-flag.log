@@ -1,1 +1,96 @@
-[1;33mTesting feature: check-status-flag[0m
+Testing feature: check-status-flag
+
+HTTPie --check-status Flag Tests
+================================
+
+Test 1: 2xx Success Status (200 OK)
+Command: http --check-status http://localhost:8888/status/200
+HTTPie Exit Code: 0 ✅
+Expected: 0
+Result: PASS
+
+Test 2: 2xx Success Status (201 Created)
+Command: http --check-status http://localhost:8888/status/201
+HTTPie Exit Code: 0 ✅
+Expected: 0
+Result: PASS
+
+Test 3: 3xx Redirect Status (300 Multiple Choices)
+Command: http --check-status --follow http://localhost:8888/status/300
+HTTPie Exit Code: 0 ✅
+Expected: 0
+Result: PASS
+
+Test 4: 4xx Client Error (400 Bad Request)
+Command: http --check-status http://localhost:8888/status/400
+HTTPie Exit Code: 4 ✅
+Expected: Non-zero (4 or 3)
+Result: PASS
+
+Test 5: 4xx Not Found (404)
+Command: http --check-status http://localhost:8888/status/404
+HTTPie Exit Code: 4 ✅
+Expected: Non-zero (4 or 3)
+Result: PASS
+
+Test 6: 4xx Forbidden (403)
+Command: http --check-status http://localhost:8888/status/403
+HTTPie Exit Code: 4 ✅
+Expected: Non-zero (4 or 3)
+Result: PASS
+
+Test 7: 5xx Server Error (500)
+Command: http --check-status http://localhost:8888/status/500
+HTTPie Exit Code: 5 ✅
+Expected: Non-zero (5 or 4)
+Result: PASS
+
+Test 8: 5xx Bad Gateway (502)
+Command: http --check-status http://localhost:8888/status/502
+HTTPie Exit Code: 5 ✅
+Expected: Non-zero (5 or 4)
+Result: PASS
+
+Test 9: 5xx Service Unavailable (503)
+Command: http --check-status http://localhost:8888/status/503
+HTTPie Exit Code: 5 ✅
+Expected: Non-zero (5 or 4)
+Result: PASS
+
+Test 10: Default Behavior WITHOUT --check-status (404)
+Command: http http://localhost:8888/status/404
+HTTPie Exit Code: 0 ✅
+Expected: 0 (default behavior ignores status codes)
+Result: PASS
+
+Test 11: Default Behavior WITHOUT --check-status (500)
+Command: http http://localhost:8888/status/500
+HTTPie Exit Code: 0 ✅
+Expected: 0 (default behavior ignores status codes)
+Result: PASS
+
+SpIE --check-status Flag Tests
+==============================
+
+Test 12: SpIE with --check-status Flag
+Command: spie --check-status http://localhost:8888/status/404
+SpIE Error: unknown option '--check-status'
+SpIE Exit Code: 64 ❌
+Expected: Support for --check-status flag
+Result: FAIL - Feature not implemented
+
+Summary
+=======
+HTTPie: ✅ ALL TESTS PASSED (11/11)
+- --check-status flag works correctly
+- 2xx and 3xx responses exit with 0
+- 4xx and 5xx responses exit with non-zero codes
+- Default behavior (without flag) exits with 0 regardless of status
+
+SpIE: ❌ FEATURE NOT IMPLEMENTED (0/1)
+- --check-status flag is not recognized
+- SpIE does not support exit code based on HTTP status
+
+Feature Status: INCOMPLETE IMPLEMENTATION
+SpIE is missing the --check-status flag functionality that is available in HTTPie.
+[0;32m✓ check-status-flag[0m

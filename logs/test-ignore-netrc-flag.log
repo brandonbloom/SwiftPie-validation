@@ -1,1 +1,33 @@
 [1;33mTesting feature: ignore-netrc-flag[0m
+## Summary
+
+I have completed testing the **ignore-netrc-flag** feature. Here are the findings:
+
+### Test Results: **FAILED** ❌
+
+**Key Finding**: The `--ignore-netrc` flag is implemented in `http` but **missing from `spie`**.
+
+### Details
+
+| Aspect | http | spie |
+|--------|------|------|
+| Flag present | ✅ Yes | ❌ No |
+| Help documentation | Shows: "Ignore credentials from .netrc." | Not documented |
+| Functionality | Available | Not implemented |
+
+### What This Means
+
+The `--ignore-netrc` flag is a core HTTPie feature that allows users to explicitly ignore credentials stored in the .netrc file. This is important for:
+- Security-conscious users who want to force fresh authentication
+- Testing environments where stored credentials would interfere
+- Scenarios requiring explicit credential control
+
+Without this flag in spie, there's a **functional gap** in authentication feature parity with http.
+
+### Documentation Created
+
+1. **Feature File**: `features/ignore-netrc-flag.md` - Contains test plan, findings, and status
+2. **Issue File**: `issues/25231-ignore-netrc-flag.md` - Documents the deviation with severity assessment (High)
+
+This is a straightforward feature gap that would benefit spie's compatibility with http, especially for users migrating authentication workflows.
+[0;32m✓ ignore-netrc-flag[0m
