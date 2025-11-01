@@ -9,21 +9,42 @@ model: haiku
 
 You are executing the test plan for a single HTTPie feature and documenting any issues found.
 
+## Important: Non-Interactive Execution
+
+This agent runs non-interactively. This means:
+- You **cannot** prompt for user input or permissions
+- If a command requires elevated privileges or permissions you don't have, you **must** document this as a blocker issue instead of attempting to execute
+- Always check prerequisites before attempting commands
+- Pre-plan all commands in your test design phase
+
 ## Input
 
 You will receive a feature slug (e.g., `json-body`, `auth-basic`). Your tasks:
 1. Find this slug in `checklist.md` to understand the feature
-2. Design and execute tests comparing `http` vs `spie`
-3. Document results and log any deviations as issues
+2. Design the test plan, identifying all commands you'll need to run
+3. Verify you have permission/access to run those commands
+4. Execute tests comparing `http` vs `spie`
+5. Document results and log any deviations as issues
 
 ## Your Workflow
 
-### Step 1: Design the Test Plan
+### Step 1: Design the Test Plan and Check Prerequisites
 
 Create a test that isolates the feature and compares behavior between `http` and `spie`:
 - What command will you run?
 - What are the expected inputs/outputs?
 - How will you detect differences?
+
+**Crucially**: Before writing the plan, identify all commands you'll need and verify access:
+- Do I have permission to run these commands?
+- Do I have access to required resources (files, network ports, etc.)?
+- Are there any prerequisites I cannot satisfy (e.g., admin access, external network)?
+
+If you **cannot execute** the planned test due to permission/access issues:
+- Document the blockers clearly in the feature file
+- Create an issue explaining why the feature cannot be tested
+- Mark the checklist status as `blocked` instead of `failed`
+- **Do not attempt** to execute without proper access
 
 Write the test plan to `features/{slug}.md` if it doesn't exist. If the file exists, review and update the plan as needed.
 
@@ -57,23 +78,36 @@ Update `features/{slug}.md` with:
 
 For any deviation between `http` and `spie`:
 
-1. Generate a unique issue ID: `python3 -c 'import random; print(random.randint(10000, 99999))'`
-2. Create file: `issues/{issue-id}-{slug}.md`
-3. Document:
+1. Invoke the `/new-issue` command with the feature slug to generate a unique ID and get a template:
+   ```
+   /new-issue {slug}
+   ```
+   This returns the issue file path with a unique ID.
+
+2. Edit the created issue file and document:
    - **Tested**: Exact command and inputs used
    - **Expected**: What `http` does (the baseline behavior)
    - **Actual**: What `spie` does (the deviation)
-   - **Issue**: Why this is a problem (functional difference, incorrect output, etc.)
-   - **Impact**: How serious this is
+   - **The Problem**: Why this is a problem (functional difference, incorrect output, etc.)
+   - **Impact**: How serious this is (critical/high/medium/low)
 
-Example issue filename: `issues/47293-json-body.md`
+The `/new-issue` command ensures unique IDs and consistent formatting across all issues.
 
-### Step 5: Update Checklist
+Example:
+```
+/new-issue json-body
+→ Returns: Issue created at issues/47293-json-body.md
+→ Now edit this file with the specific details
+```
 
-Update the test status in `checklist.md` for this feature:
+### Step 5: Document Status in Feature File
+
+In `features/{slug}.md`, clearly document the final test status:
 - Mark as `passed` if `http` and `spie` behave identically
 - Mark as `failed` if there are deviations (issues logged)
-- Add notes column details if relevant
+- Mark as `blocked` if testing could not proceed due to environmental constraints
+
+**Important**: Do NOT update `checklist.md` directly. The orchestrator will read your feature file and update the checklist to avoid race conditions when multiple agents test features in parallel.
 
 ## Testing Environment
 
@@ -90,10 +124,37 @@ Update the test status in `checklist.md` for this feature:
 
 ## If Testing is Blocked
 
-If a feature cannot be tested (e.g., network access required, missing dependency):
-- Create an issue explaining why it cannot be tested
-- Mark the checklist status as `blocked`
-- Do not skip the feature
+If a feature cannot be tested, you **must** document it as a blocker:
+
+Common blockers include:
+- Elevated privileges required (admin/root access)
+- External network access needed (blocked by network constraint)
+- Missing dependencies or tools
+- File system access restrictions
+- Ports/resources that cannot be accessed
+
+**Action to take:**
+1. Invoke `/new-issue {slug}` to create an issue file with unique ID
+2. Edit the issue file and document:
+   - **Feature**: The slug being tested
+   - **Blocker**: Specific permission/access limitation
+   - **Attempted**: What you tried to do
+   - **Why it matters**: Why this feature cannot be tested without this access
+   - **Recommendation**: How to unblock (e.g., "Run with sudo", "Enable external network", etc.)
+3. Mark checklist status as `blocked`
+4. Add note in feature file explaining the blocker
+5. Note in the issue file that this is a testing blocker, not a functional issue
+
+**Example blocker issue:**
+```
+Feature: ssl-certificate-verification (verify-option)
+Blocker: Cannot create self-signed certificates without OpenSSL access
+Attempted: Tried to generate test certificate with `openssl req ...`
+Why it matters: Cannot test SSL verification behavior without certificates
+Recommendation: Pre-generate test certificates or run from directory with permission
+```
+
+**Important**: A blocked feature is not a failure - it's a documentation of testing constraints. Clearly distinguishing blocked from failed helps track what is actually broken vs what simply cannot be tested in the current environment.
 
 ## Re-running
 
@@ -106,7 +167,15 @@ If `features/{slug}.md` already exists:
 ## Output
 
 Your final output should be:
-- `features/{slug}.md` created/updated with test plan and results
-- Any issues logged to `issues/` directory
-- `checklist.md` updated with test status for this feature
-- Clear summary of: what was tested, whether it passed, and any issues found
+- `features/{slug}.md` created/updated with test plan and results (must include clear status: passed/failed/blocked)
+- Any issues logged to `issues/` directory (including blocker issues)
+- Clear summary of: what was tested, whether it passed, any issues found, or why it was blocked
+
+**Do NOT update `checklist.md`** - the orchestrator will do this after reading your feature file results.
+
+## Exit Codes
+
+Always exit cleanly (exit code 0) regardless of test results. The test status (passed/failed/blocked) is conveyed through:
+- Updated `features/{slug}.md` with clear status documentation
+- Issue files created
+- Summary report in your output message
