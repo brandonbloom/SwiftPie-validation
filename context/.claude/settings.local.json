@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:httpbin.org)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
