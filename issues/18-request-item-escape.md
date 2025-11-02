@@ -1,6 +1,6 @@
 # Issue: Escape Sequences for Separators Not Supported
 
-**Issue ID:** 25241
+**Issue ID:** [#18](https://github.com/brandonbloom/SwiftPie/issues/18)
 **Feature:** request-item-escape
 **Severity:** Medium
 **Status:** Open

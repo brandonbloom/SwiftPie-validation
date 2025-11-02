@@ -1,6 +1,6 @@
 # Issue: --sorted flag not implemented in spie
 
-**Issue ID:** 25236
+**Issue ID:** [#14](https://github.com/brandonbloom/SwiftPie/issues/14)
 **Feature Slug:** sorted-flag
 **Status:** Open
 

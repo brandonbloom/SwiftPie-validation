@@ -1,6 +1,6 @@
 # Issue: --pretty option not implemented in spie
 
-**Issue ID:** 25233
+**Issue ID:** [#8](https://github.com/brandonbloom/SwiftPie/issues/8)
 **Feature Slug:** pretty-option
 **Status:** Open
 

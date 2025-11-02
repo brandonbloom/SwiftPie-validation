@@ -1,6 +1,6 @@
 # Issue: Incomplete Feature Documentation in spie --help
 
-**Issue ID:** help-flag-incomplete-docs
+**Issue ID:** [#21](https://github.com/brandonbloom/SwiftPie/issues/21)help-flag-incomplete-docs
 **Severity:** Medium
 **Category:** Documentation
 **Discovered During:** help-flag feature test

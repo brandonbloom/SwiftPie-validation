@@ -13,36 +13,36 @@ This checklist contains all features extracted from `http --help` for comprehens
 | request-item-form-files | Request Items: Form Files | Form file fields with '@' separator | Passed | Both implementations handle file uploads identically; see features/request-item-form-files.md |
 | request-item-data-embed | Request Items: Data Embed | Data field from file with '=@' separator | Failed | spie treats =@ as file upload (multipart) instead of reading file content as JSON string value. See features/request-item-data-embed.md and [GitHub issue #2](https://github.com/brandonbloom/SwiftPie/issues/2) |
 | request-item-json-embed | Request Items: JSON Embed | JSON field from file with ':=@' separator | Failed | spie does not support :=@ for JSON embedding; treats it as multipart file field instead. See features/request-item-json-embed.md |
-| request-item-escape | Request Items: Escaping | Backslash escape for colliding separators | Failed | Escape sequences like \: and \= are not recognized; defaults to form encoding instead of JSON. See features/request-item-escape.md and issues/25241-request-item-escape.md |
-| json-flag | --json, -j | JSON serialization (default), sets Content-Type and Accept headers | Failed | Feature not implemented in spie; see features/json-flag.md and issues/25229-json-flag.md |
+| request-item-escape | Request Items: Escaping | Backslash escape for colliding separators | Failed | Escape sequences like \: and \= are not recognized; defaults to form encoding instead of JSON. See features/request-item-escape.md and [GitHub issue #18](https://github.com/brandonbloom/SwiftPie/issues/18) |
+| json-flag | --json, -j | JSON serialization (default), sets Content-Type and Accept headers | Failed | Feature not implemented in spie; see features/json-flag.md and [GitHub issue #3](https://github.com/brandonbloom/SwiftPie/issues/3) |
 | form-flag | --form, -f | Form data serialization, auto-detects multipart for file fields | Passed | All form data handling works identically between http and spie; spie uses implicit form encoding for = fields and auto-detects multipart for @ fields |
 | multipart-flag | --multipart | Force multipart/form-data request even without files | Failed | spie does not have --multipart flag; cannot force multipart without file fields. See features/multipart-flag.md |
-| boundary-option | --boundary | Custom boundary string for multipart/form-data requests | Failed | --boundary option is completely missing from spie. See features/boundary-option.md and issues/25240-boundary-option.md |
-| raw-option | --raw | Pass raw request data without extra processing | Failed | --raw option is not recognized; treated as form field argument instead. See features/raw-option.md and issues/25242-raw-option.md |
+| boundary-option | --boundary | Custom boundary string for multipart/form-data requests | Failed | --boundary option is completely missing from spie. See features/boundary-option.md and [GitHub issue #17](https://github.com/brandonbloom/SwiftPie/issues/17) |
+| raw-option | --raw | Pass raw request data without extra processing | Failed | --raw option is not recognized; treated as form field argument instead. See features/raw-option.md and [GitHub issue #19](https://github.com/brandonbloom/SwiftPie/issues/19) |
 | compress-flag | --compress, -x | Deflate compression with Content-Encoding header | Failed | Feature not implemented in spie; see features/compress-flag.md |
-| pretty-option | --pretty | Control output processing (all, colors, format, none) | Failed | --pretty option is not implemented in spie. See features/pretty-option.md and issues/25233-pretty-option.md |
-| style-option | --style, -s | Output coloring style selection from 40+ themes | Failed | Feature not implemented in spie; see features/style-option.md and issues/25230-style-option.md |
-| unsorted-flag | --unsorted | Disable all sorting in formatted output | Failed | --unsorted flag is not implemented in spie. See features/unsorted-flag.md and issues/25234-unsorted-flag.md |
-| sorted-flag | --sorted | Re-enable all sorting in formatted output | Failed | --sorted flag is not implemented in spie. See features/sorted-flag.md and issues/25236-sorted-flag.md |
-| response-charset | --response-charset | Override response encoding for terminal display | Failed | --response-charset option is not implemented in spie. See features/response-charset.md and issues/25235-response-charset.md |
-| response-mime | --response-mime | Override response MIME type for coloring/formatting | Failed | --response-mime option is not implemented in spie. See features/response-mime.md and issues/25238-response-mime.md |
-| format-options | --format-options | Control formatting options (headers.sort, json.indent, etc.) | Failed | --format-options option is not implemented in spie. See features/format-options.md and issues/25237-format-options.md |
-| print-option | --print, -p | Specify output parts (H=req headers, B=req body, h=resp headers, b=resp body, m=metadata) | Failed | --print option is not implemented in spie. See features/print-option.md and issues/25236-print-option.md |
+| pretty-option | --pretty | Control output processing (all, colors, format, none) | Failed | --pretty option is not implemented in spie. See features/pretty-option.md and [GitHub issue #8](https://github.com/brandonbloom/SwiftPie/issues/8) |
+| style-option | --style, -s | Output coloring style selection from 40+ themes | Failed | Feature not implemented in spie; see features/style-option.md and [GitHub issue #4](https://github.com/brandonbloom/SwiftPie/issues/4) |
+| unsorted-flag | --unsorted | Disable all sorting in formatted output | Failed | --unsorted flag is not implemented in spie. See features/unsorted-flag.md and [GitHub issue #10](https://github.com/brandonbloom/SwiftPie/issues/10) |
+| sorted-flag | --sorted | Re-enable all sorting in formatted output | Failed | --sorted flag is not implemented in spie. See features/sorted-flag.md and [GitHub issue #14](https://github.com/brandonbloom/SwiftPie/issues/14) |
+| response-charset | --response-charset | Override response encoding for terminal display | Failed | --response-charset option is not implemented in spie. See features/response-charset.md and [GitHub issue #12](https://github.com/brandonbloom/SwiftPie/issues/12) |
+| response-mime | --response-mime | Override response MIME type for coloring/formatting | Failed | --response-mime option is not implemented in spie. See features/response-mime.md and [GitHub issue #16](https://github.com/brandonbloom/SwiftPie/issues/16) |
+| format-options | --format-options | Control formatting options (headers.sort, json.indent, etc.) | Failed | --format-options option is not implemented in spie. See features/format-options.md and [GitHub issue #15](https://github.com/brandonbloom/SwiftPie/issues/15) |
+| print-option | --print, -p | Specify output parts (H=req headers, B=req body, h=resp headers, b=resp body, m=metadata) | Failed | --print option is not implemented in spie. See features/print-option.md and [GitHub issue #13](https://github.com/brandonbloom/SwiftPie/issues/13) |
 | headers-flag | --headers, -h | Print only response headers (shortcut for --print=h) | Failed | Feature not implemented in spie; see features/headers-flag.md |
 | meta-flag | --meta, -m | Print only response metadata (shortcut for --print=m) | Failed | Feature not implemented in spie; see features/meta-flag.md |
 | body-flag | --body, -b | Print only response body (shortcut for --print=b) | Failed | Feature not implemented in spie; see features/body-flag.md |
 | verbose-flag | --verbose, -v | Verbose output with multiple levels (-v, -vv) | Passed | HTTPie implementation works correctly; SpIE does not support this flag (feature gap). See features/verbose-flag.md |
-| all-flag | --all | Show intermediary requests/responses (redirects, auth, etc.) | Failed | --all flag is not implemented in spie. See features/all-flag.md and issues/all-flag-not-implemented.md |
-| stream-flag | --stream, -S | Stream response body line-by-line like 'tail -f' | Failed | Feature not implemented in spie; see features/stream-flag.md and issues/stream-flag-not-implemented.md |
-| output-option | --output, -o | Save output to file instead of stdout | Failed | --output option is not implemented in spie. See features/output-option.md and issues/25232-output-option.md |
-| download-flag | --download, -d | Download response body to file with auto-guessed filename | Failed | --download flag is not implemented in spie. See features/download-flag.md and issues/25233-download-flag.md |
-| continue-flag | --continue, -c | Resume interrupted download (requires --output) | Failed | --continue flag is not implemented in spie. See features/continue-flag.md and issues/25234-continue-flag.md |
-| quiet-flag | --quiet, -q | Suppress stdout/stderr output (multiple levels supported) | Failed | --quiet flag is not implemented in spie. See features/quiet-flag.md and issues/25235-quiet-flag.md |
+| all-flag | --all | Show intermediary requests/responses (redirects, auth, etc.) | Failed | --all flag is not implemented in spie. See features/all-flag.md and [GitHub issue #20](https://github.com/brandonbloom/SwiftPie/issues/20) |
+| stream-flag | --stream, -S | Stream response body line-by-line like 'tail -f' | Failed | Feature not implemented in spie; see features/stream-flag.md and [GitHub issue #22](https://github.com/brandonbloom/SwiftPie/issues/22) |
+| output-option | --output, -o | Save output to file instead of stdout | Failed | --output option is not implemented in spie. See features/output-option.md and [GitHub issue #6](https://github.com/brandonbloom/SwiftPie/issues/6) |
+| download-flag | --download, -d | Download response body to file with auto-guessed filename | Failed | --download flag is not implemented in spie. See features/download-flag.md and [GitHub issue #7](https://github.com/brandonbloom/SwiftPie/issues/7) |
+| continue-flag | --continue, -c | Resume interrupted download (requires --output) | Failed | --continue flag is not implemented in spie. See features/continue-flag.md and [GitHub issue #9](https://github.com/brandonbloom/SwiftPie/issues/9) |
+| quiet-flag | --quiet, -q | Suppress stdout/stderr output (multiple levels supported) | Failed | --quiet flag is not implemented in spie. See features/quiet-flag.md and [GitHub issue #11](https://github.com/brandonbloom/SwiftPie/issues/11) |
 | session-option | --session | Create/reuse session with persistent headers, auth, cookies | Not Tested | |
 | session-read-only | --session-read-only | Read session without updating it | Not Tested | |
 | auth-option | --auth, -a | Username/password or token authentication | Passed | Both http and spie implement basic authentication correctly with proper Base64 encoding |
 | auth-type-option | --auth-type, -A | Authentication mechanism (basic, bearer, digest) | Not Tested | |
-| ignore-netrc-flag | --ignore-netrc | Ignore credentials from .netrc file | Not Tested | |
+| ignore-netrc-flag | --ignore-netrc | Ignore credentials from .netrc file | Not Tested | [GitHub issue #5](https://github.com/brandonbloom/SwiftPie/issues/5) |
 | offline-flag | --offline | Build and print request without sending it | Not Tested | |
 | proxy-option | --proxy | Protocol-to-proxy URL mapping with environment variable support | Not Tested | |
 | follow-flag | --follow, -F | Follow 30x Location redirects | Failed | spie automatically follows redirects by default (always), while http requires explicit --follow flag (default: doesn't follow). No CLI control flags available in spie. See features/follow-flag.md |
@@ -59,9 +59,9 @@ This checklist contains all features extracted from `http --help` for comprehens
 | cert-key-option | --cert-key | Private key for SSL certificate | Not Tested | |
 | cert-key-pass-option | --cert-key-pass | Passphrase for private key | Not Tested | |
 | ignore-stdin-flag | --ignore-stdin, -I | Do not attempt to read from stdin | Not Tested | |
-| help-flag | --help | Show help message and exit | Not Tested | |
+| help-flag | --help | Show help message and exit | Not Tested | [GitHub issue #21](https://github.com/brandonbloom/SwiftPie/issues/21) |
 | manual-flag | --manual | Show full manual | Not Tested | |
-| version-flag | --version | Show version and exit | Failed | Feature not implemented in spie; see features/version-flag.md and issues/version-flag-not-implemented.md |
+| version-flag | --version | Show version and exit | Failed | Feature not implemented in spie; see features/version-flag.md and [GitHub issue #23](https://github.com/brandonbloom/SwiftPie/issues/23) |
 | traceback-flag | --traceback | Print exception traceback on error | Not Tested | |
 | default-scheme-option | --default-scheme | Default scheme when not specified in URL | Not Tested | |
 | debug-flag | --debug | Debug mode with traceback and debugging info | Not Tested | |

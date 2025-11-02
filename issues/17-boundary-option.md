@@ -1,6 +1,6 @@
 # Issue: Boundary Option (--boundary) Not Implemented
 
-**Issue ID:** 25240
+**Issue ID:** [#17](https://github.com/brandonbloom/SwiftPie/issues/17)
 **Feature:** boundary-option
 **Severity:** High
 **Status:** Open

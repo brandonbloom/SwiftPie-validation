@@ -1,6 +1,6 @@
 # Issue: Version Flag Not Implemented in spie
 
-**Issue ID:** version-flag-not-implemented
+**Issue ID:** [#23](https://github.com/brandonbloom/SwiftPie/issues/23)version-flag-not-implemented
 **Severity:** High
 **Category:** Missing Feature
 **Discovered During:** version-flag feature test

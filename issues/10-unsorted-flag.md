@@ -1,6 +1,6 @@
 # Issue: --unsorted flag not implemented in spie
 
-**Issue ID:** 25234
+**Issue ID:** [#10](https://github.com/brandonbloom/SwiftPie/issues/10)
 **Feature Slug:** unsorted-flag
 **Status:** Open
 

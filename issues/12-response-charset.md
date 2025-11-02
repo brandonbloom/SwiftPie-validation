@@ -1,6 +1,6 @@
 # Issue: --response-charset option not implemented in spie
 
-**Issue ID:** 25235
+**Issue ID:** [#12](https://github.com/brandonbloom/SwiftPie/issues/12)
 **Feature Slug:** response-charset
 **Status:** Open
 

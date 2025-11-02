@@ -1,6 +1,6 @@
 # Issue: stream-flag not implemented in spie
 
-**Issue ID:** stream-flag-not-implemented
+**Issue ID:** [#22](https://github.com/brandonbloom/SwiftPie/issues/22)stream-flag-not-implemented
 
 **Feature Slug:** stream-flag
 
