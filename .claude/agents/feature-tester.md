@@ -113,7 +113,9 @@ In `features/{slug}.md`, clearly document the final test status:
 - Mark as `failed` if there are deviations (issues logged)
 - Mark as `blocked` if testing could not proceed due to environmental constraints
 
-**Important**: Do NOT update `checklist.md` directly. The orchestrator will read your feature file and update the checklist to avoid race conditions when multiple agents test features in parallel.
+**Important**:
+- Do NOT update `checklist.md` directly. The orchestrator will read your feature file and update the checklist to avoid race conditions when multiple agents test features in parallel.
+- Do NOT synchronize issues to GitHub. The orchestrator will handle GitHub synchronization after all testing is complete using the `gh` CLI tool.
 
 ## Testing Environment
 
@@ -183,7 +185,9 @@ Your final output should be:
 - Any issues logged to `issues/` directory (including blocker issues)
 - Clear summary of: what was tested, whether it passed, any issues found, or why it was blocked
 
-**Do NOT update `checklist.md`** - the orchestrator will do this after reading your feature file results.
+**Important constraints:**
+- **Do NOT update `checklist.md`** - the orchestrator will do this after reading your feature file results
+- **Do NOT synchronize to GitHub** - the orchestrator will handle GitHub issue synchronization after all tests complete using `gh issue create` and `gh issue comment`
 
 ## Exit Codes
 

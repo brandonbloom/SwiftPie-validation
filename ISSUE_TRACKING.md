@@ -258,6 +258,156 @@ This is a testing constraint, not a functional issue with spie.
 Could be resolved by pre-generating test certificates.
 ```
 
+## Synchronizing Issues with GitHub
+
+Issues documented locally in `issues/` can be synchronized to the upstream SwiftPie GitHub repository using the `gh` CLI tool.
+
+### Prerequisites
+
+Install and authenticate the GitHub CLI:
+```bash
+# Install gh (if not already installed)
+brew install gh  # macOS
+# or: sudo apt install gh  # Linux
+
+# Authenticate
+gh auth login
+```
+
+### Creating GitHub Issues from Local Issues
+
+When a new issue is discovered during testing:
+
+1. **Create the local issue** using `/new-issue {slug}` command
+2. **Document the issue** with all test details in `issues/{id}-{slug}.md`
+3. **Create GitHub issue** with the `gh` tool:
+
+```bash
+# Create new GitHub issue from local issue file
+gh issue create --repo brandonbloom/SwiftPie \
+  --title "Feature: {feature-name} - {brief description}" \
+  --label bug \
+  --body "$(cat issues/{id}-{slug}.md)"
+```
+
+### Updating Existing GitHub Issues
+
+When re-testing a feature reveals new information:
+
+```bash
+# Add comment to existing GitHub issue
+gh issue comment {github-issue-number} --repo brandonbloom/SwiftPie \
+  --body "$(cat <<'EOF'
+## Update: {date}
+
+{New findings or status update}
+
+See detailed test results: [features/{slug}.md](link)
+EOF
+)"
+```
+
+### Reopening Closed Issues
+
+If a previously fixed feature regresses:
+
+```bash
+# Reopen issue and add update
+gh issue reopen {github-issue-number} --repo brandonbloom/SwiftPie
+gh issue comment {github-issue-number} --repo brandonbloom/SwiftPie \
+  --body "Regression detected in latest build. See updated test results."
+```
+
+### GitHub Issue Workflow Example
+
+Complete workflow for synchronizing issues:
+
+```bash
+#!/bin/bash
+# Sync all local issues to GitHub
+
+REPO="brandonbloom/SwiftPie"
+
+for issue_file in issues/*.md; do
+  slug=$(basename "$issue_file" .md | cut -d'-' -f2-)
+  issue_id=$(basename "$issue_file" .md | cut -d'-' -f1)
+
+  # Extract title and severity from issue file
+  title=$(grep "^# Issue:" "$issue_file" | sed 's/# Issue: //')
+  severity=$(grep "^\*\*Severity\*\*:" "$issue_file" | cut -d: -f2 | tr -d ' ')
+
+  # Check if issue already exists on GitHub
+  existing=$(gh issue list --repo "$REPO" --search "$slug" --json number --jq '.[0].number')
+
+  if [ -z "$existing" ]; then
+    # Create new issue
+    echo "Creating GitHub issue for $slug..."
+    gh issue create --repo "$REPO" \
+      --title "$title" \
+      --label "bug" \
+      --label "severity:$severity" \
+      --body-file "$issue_file"
+  else
+    echo "Issue already exists: #$existing for $slug"
+  fi
+done
+```
+
+### Listing GitHub Issues
+
+View current issues on GitHub:
+
+```bash
+# List all open issues
+gh issue list --repo brandonbloom/SwiftPie
+
+# List issues by label
+gh issue list --repo brandonbloom/SwiftPie --label bug
+
+# Search for specific feature
+gh issue list --repo brandonbloom/SwiftPie --search "timeout"
+
+# View specific issue details
+gh issue view {issue-number} --repo brandonbloom/SwiftPie
+```
+
+### Bulk Operations
+
+Update multiple issues at once:
+
+```bash
+# Close all issues for features that now pass
+for slug in json-body auth-basic; do
+  issue_num=$(gh issue list --repo brandonbloom/SwiftPie --search "$slug" --json number --jq '.[0].number')
+  if [ -n "$issue_num" ]; then
+    gh issue close "$issue_num" --repo brandonbloom/SwiftPie \
+      --comment "Feature now passes all tests. Confirmed in latest validation run."
+  fi
+done
+```
+
+### Integration with Testing Workflow
+
+Add to the `/run-tests` orchestrator or feature-tester agent:
+
+```markdown
+## Phase 4: Synchronize Issues to GitHub (Optional)
+
+After testing completes, optionally sync issues to GitHub:
+
+1. For each newly created issue in `issues/`:
+   - Create corresponding GitHub issue with `gh issue create`
+   - Include link back to validation repo for detailed test logs
+
+2. For existing issues that have updates:
+   - Add comment with `gh issue comment`
+   - Link to updated test results
+
+3. For issues that are now resolved:
+   - Close with `gh issue close`
+   - Document which changes fixed the issue
+```
+
 ## Integrating with CI/CD
 
 ### GitHub Actions Example
@@ -267,6 +417,16 @@ Could be resolved by pre-generating test certificates.
 
 - name: Check for critical issues
   run: grep -l "critical" issues/*.md && exit 1 || echo "No critical issues"
+
+- name: Sync issues to GitHub
+  env:
+    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  run: |
+    for issue_file in issues/*.md; do
+      slug=$(basename "$issue_file" .md | cut -d'-' -f2-)
+      existing=$(gh issue list --search "$slug" --json number --jq '.[0].number')
+      [ -z "$existing" ] && gh issue create --title "$(head -1 $issue_file)" --body-file "$issue_file"
+    done
 
 - name: Report
   run: cat checklist.md

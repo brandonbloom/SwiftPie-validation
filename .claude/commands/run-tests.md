@@ -72,6 +72,94 @@ After all features are tested:
 - Count total issues logged
 - Provide a summary report showing test coverage and key findings
 
+## Phase 4: Synchronize Issues to GitHub (Optional)
+
+After all testing is complete, you may optionally synchronize local issues to the upstream GitHub repository using the `gh` CLI tool.
+
+**When to synchronize:**
+- New issues were created during testing
+- Existing issues have updates (regressions, new test findings)
+- Previously reported issues are now resolved
+
+**GitHub synchronization workflow:**
+
+### For New Issues
+
+Create GitHub issues for newly discovered problems:
+
+```bash
+gh issue create --repo brandonbloom/SwiftPie \
+  --title "{Feature}: {brief description}" \
+  --label bug \
+  --body "$(cat <<'EOF'
+## Summary
+{Brief description of the problem}
+
+## Tested
+{Commands and test details}
+
+## Expected vs Actual
+- **Expected (http)**: {baseline behavior}
+- **Actual (spie)**: {deviant behavior}
+
+## Impact
+**Severity**: {critical/high/medium/low}
+
+{Impact description}
+
+## Test Details
+Full results: [features/{slug}.md](https://github.com/brandonbloom/SwiftPie-validation/blob/main/features/{slug}.md)
+
+Related local issue: [issues/{id}-{slug}.md](https://github.com/brandonbloom/SwiftPie-validation/blob/main/issues/{id}-{slug}.md)
+EOF
+)"
+```
+
+### For Updated Issues
+
+Add comments to existing GitHub issues when re-testing reveals new information:
+
+```bash
+gh issue comment {github-issue-number} --repo brandonbloom/SwiftPie \
+  --body "$(cat <<'EOF'
+## Update: {date}
+
+{New findings, progress, or regression details}
+
+### Status
+{Current status of the issue}
+
+### Test Details
+Full results: [features/{slug}.md](link to validation repo)
+EOF
+)"
+```
+
+### For Resolved Issues
+
+When a previously failing feature now passes:
+
+```bash
+gh issue close {github-issue-number} --repo brandonbloom/SwiftPie \
+  --comment "Feature now passes all tests. Confirmed in validation run on {date}."
+```
+
+### For Reopening Regressed Issues
+
+If a previously fixed feature regresses:
+
+```bash
+gh issue reopen {github-issue-number} --repo brandonbloom/SwiftPie
+gh issue comment {github-issue-number} --repo brandonbloom/SwiftPie \
+  --body "Regression detected in latest build. Feature that previously passed now fails. See updated test results."
+```
+
+**Important notes:**
+- GitHub sync is optional and performed by the orchestrator after testing
+- Use `gh issue list --repo brandonbloom/SwiftPie --search "{slug}"` to check if issue already exists
+- Link back to the validation repo for detailed test logs
+- Include test date in updates to track when issues were verified
+
 ## Important Constraints
 
 - **Network**: Only the local httpbin server (localhost:8888) may be accessed. No external network endpoints.

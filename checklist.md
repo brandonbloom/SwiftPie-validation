@@ -18,9 +18,9 @@ This checklist contains all features extracted from `http --help` for comprehens
 | form-flag | --form, -f | Form data serialization, auto-detects multipart for file fields | Passed | All form data handling works identically between http and spie; spie uses implicit form encoding for = fields and auto-detects multipart for @ fields |
 | multipart-flag | --multipart | Force multipart/form-data request even without files | Failed | spie does not have --multipart flag; cannot force multipart without file fields. See features/multipart-flag.md |
 | boundary-option | --boundary | Custom boundary string for multipart/form-data requests | Failed | --boundary option is completely missing from spie. See features/boundary-option.md and [GitHub issue #17](https://github.com/brandonbloom/SwiftPie/issues/17) |
-| raw-option | --raw | Pass raw request data without extra processing | Failed | --raw option is not recognized; treated as form field argument instead. See features/raw-option.md and [GitHub issue #19](https://github.com/brandonbloom/SwiftPie/issues/19) |
+| raw-option | --raw | Pass raw request data without extra processing | Failed | Option now implemented but broken: wraps all data in {"--raw":"data"} instead of sending raw. See features/raw-option.md and [GitHub issue #19](https://github.com/brandonbloom/SwiftPie/issues/19) |
 | compress-flag | --compress, -x | Deflate compression with Content-Encoding header | Failed | Feature not implemented in spie; see features/compress-flag.md |
-| pretty-option | --pretty | Control output processing (all, colors, format, none) | Failed | --pretty option is not implemented in spie. See features/pretty-option.md and [GitHub issue #8](https://github.com/brandonbloom/SwiftPie/issues/8) |
+| pretty-option | --pretty | Control output processing (all, colors, format, none) | Failed | Option now implemented but deviations: shows headers+body by default, 2-space vs 4-space indent, different JSON style. See features/pretty-option.md and [GitHub issue #8](https://github.com/brandonbloom/SwiftPie/issues/8) |
 | style-option | --style, -s | Output coloring style selection from 40+ themes | Failed | Feature not implemented in spie; see features/style-option.md and [GitHub issue #4](https://github.com/brandonbloom/SwiftPie/issues/4) |
 | unsorted-flag | --unsorted | Disable all sorting in formatted output | Failed | --unsorted flag is not implemented in spie. See features/unsorted-flag.md and [GitHub issue #10](https://github.com/brandonbloom/SwiftPie/issues/10) |
 | sorted-flag | --sorted | Re-enable all sorting in formatted output | Failed | --sorted flag is not implemented in spie. See features/sorted-flag.md and [GitHub issue #14](https://github.com/brandonbloom/SwiftPie/issues/14) |
@@ -46,19 +46,19 @@ This checklist contains all features extracted from `http --help` for comprehens
 | offline-flag | --offline | Build and print request without sending it | Not Tested | |
 | proxy-option | --proxy | Protocol-to-proxy URL mapping with environment variable support | Not Tested | |
 | follow-flag | --follow, -F | Follow 30x Location redirects | Failed | spie automatically follows redirects by default (always), while http requires explicit --follow flag (default: doesn't follow). No CLI control flags available in spie. See features/follow-flag.md |
-| max-redirects-option | --max-redirects | Maximum redirect limit (default 30) | Not Tested | |
+| max-redirects-option | --max-redirects | Maximum redirect limit (default 30) | Failed | Core limit enforcement works but issues: shows all intermediate responses, rejects 0 value, implies --follow, strict argument order. See features/max-redirects-option.md and issues #29-32 |
 | max-headers-option | --max-headers | Maximum response headers before giving up | Failed | spie does not implement --max-headers option; feature is completely missing. See features/max-headers-option.md |
-| timeout-option | --timeout | Connection timeout in seconds | Not Tested | |
-| check-status-flag | --check-status | Exit with error for 4xx/5xx status codes | Not Tested | |
+| timeout-option | --timeout | Connection timeout in seconds | Failed | Core functionality works but issues: rejects --timeout 0, different exit codes (1 vs 2), decimal display truncated. See features/timeout-option.md and issues #25-28 |
+| check-status-flag | --check-status | Exit with error for 4xx/5xx status codes | Failed | Feature not implemented; --check-status flag not recognized. See features/check-status-flag.md |
 | path-as-is-flag | --path-as-is | Bypass dot segment URL squashing (/../ or /./) | Not Tested | |
 | chunked-flag | --chunked | Enable chunked transfer encoding | Not Tested | |
-| verify-option | --verify | SSL certificate verification control (yes/no/path) | Not Tested | |
+| verify-option | --verify | SSL certificate verification control (yes/no/path) | Failed | Boolean verification works (true/false/yes/no) but custom CA bundle paths not supported. See features/verify-option.md |
 | ssl-option | --ssl | SSL/TLS protocol version selection (ssl2.3, tls1, tls1.1, tls1.2) | Not Tested | |
 | ciphers-option | --ciphers | OpenSSL cipher list format string | Not Tested | |
 | cert-option | --cert | Local client-side SSL certificate | Not Tested | |
 | cert-key-option | --cert-key | Private key for SSL certificate | Not Tested | |
 | cert-key-pass-option | --cert-key-pass | Passphrase for private key | Not Tested | |
-| ignore-stdin-flag | --ignore-stdin, -I | Do not attempt to read from stdin | Not Tested | |
+| ignore-stdin-flag | --ignore-stdin, -I | Do not attempt to read from stdin | Failed | Flag accepted but non-functional; spie never reads stdin at all (core feature missing). See features/ignore-stdin-flag.md and [GitHub issue #24](https://github.com/brandonbloom/SwiftPie/issues/24) |
 | help-flag | --help | Show help message and exit | Not Tested | [GitHub issue #21](https://github.com/brandonbloom/SwiftPie/issues/21) |
 | manual-flag | --manual | Show full manual | Not Tested | |
 | version-flag | --version | Show version and exit | Failed | Feature not implemented in spie; see features/version-flag.md and [GitHub issue #23](https://github.com/brandonbloom/SwiftPie/issues/23) |

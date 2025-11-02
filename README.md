@@ -33,8 +33,9 @@ The workflow uses dedicated agents to avoid context overload:
 - **Re-runnable**: All agents detect existing outputs and update them appropriately, supporting iterative testing as `spie` evolves
 - **Isolated Testing**: All tests execute against a local httpbin server; no external network access
 - **Clear Attribution**: Each feature gets a slug identifier (valid filename component) for easy reference
-- **Issue Tracking**: Any deviation between `http` and `spie` is documented as an issue
+- **Issue Tracking**: Any deviation between `http` and `spie` is documented as an issue locally and can be synchronized to GitHub
 - **Context-Efficient**: Heavy lifting delegated to specialized agents to avoid context overload in the orchestrator
+- **GitHub Integration**: Local issues can be synchronized to the upstream SwiftPie repository using the `gh` CLI tool
 
 ## Directory Structure
 
@@ -68,3 +69,18 @@ Both `http` and `spie` must be on your PATH before starting. Verify with:
 ```bash
 which http && which spie
 ```
+
+### Optional: GitHub CLI for Issue Synchronization
+
+To synchronize local issues to the SwiftPie GitHub repository, install and authenticate the `gh` CLI:
+
+```bash
+# Install (if not already installed)
+brew install gh  # macOS
+# or: sudo apt install gh  # Linux
+
+# Authenticate
+gh auth login
+```
+
+See [ISSUE_TRACKING.md](./ISSUE_TRACKING.md) for details on GitHub synchronization workflows.
