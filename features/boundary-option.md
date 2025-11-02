@@ -120,3 +120,7 @@ test content
 ```
 error: unknown option '--boundary=CUSTOM_BOUNDARY_STRING_123'
 ```
+
+## Status
+
+**FAILED** - The `--boundary` option is not implemented in spie. The option is completely missing from the CLI, and there is no way to customize multipart boundary strings. See issue #25240.

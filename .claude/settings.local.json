@@ -21,7 +21,16 @@
       "Bash(wait:*)",
       "Bash(while pgrep -f \"run-feature-tests-headless.sh\")",
       "Bash(do sleep 10)",
-      "Bash(done)"
+      "Bash(done)",
+      "SlashCommand(/run-tests)",
+      "Bash(bash ./scripts/extract-features.sh:*)",
+      "Bash(python3:*)",
+      "Bash(awk:*)",
+      "Bash(lsof:*)",
+      "Bash(netstat:*)",
+      "Bash(/Users/bbloom/Projects/SwiftPie-validation/bin/spie:*)",
+      "Bash(ls:*)",
+      "Bash(gh issue create:*)"
     ],
     "deny": [],
     "ask": []
